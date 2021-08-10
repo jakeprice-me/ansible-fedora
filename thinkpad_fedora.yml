@@ -1,0 +1,338 @@
+---
+# *****************************************************************************
+# Ansible Playbook for Configuring Fedora on ThinkPad
+# *****************************************************************************
+
+- name: Initial Server Configuration
+  hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+  
+    - name: Set timezone
+      community.general.timezone:
+        name: Europe/London
+    
+    - name: Set hostname
+      hostname:
+        name: thinkpad
+    
+    - name: Update repositories and packages
+      dnf:
+        name: "*"
+        state: latest
+        update_cache: yes
+    
+    - name: Install RPM Fusion
+      dnf:
+        name: "{{ item.name }}"
+        state: present
+        disable_gpg_check: yes
+      with_items:
+        - { name: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-34.noarch.rpm" }
+        - { name: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-34.noarch.rpm" }
+    
+    - name: Enable FSearch Copr Repo
+      community.general.copr:
+        host: copr.fedorainfracloud.org
+        state: enabled
+        name: inori39/fsearch
+
+    - name: Import Visual Studio Code Repo Key
+      ansible.builtin.rpm_key:
+        state: present
+        key: https://packages.microsoft.com/keys/microsoft.asc
+    
+    - name: Add Visual Studio Code Repository
+      yum_repository:
+        name: "VSCodeRepo"
+        description: "Visual Studio Code Repository"
+        file: vscode
+        baseurl: https://packages.microsoft.com/yumrepos/vscode
+        gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+        gpgcheck: yes
+
+    - name: Download Docker Repository
+      get_url:
+        url: https://download.docker.com/linux/fedora/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+
+    - name: Install packages
+      dnf:
+        state: latest
+        name: 
+          - android-tools
+          - bat
+          - chromium
+          - cifs-utils
+          - code
+          - curl
+          - dconf-editor
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - dnsutils
+          - dos2unix
+          - ffmpeg
+          - fsearch
+          - fzf
+          - git
+          - gnome-extensions-app
+          - gnome-shell-extension-user-theme
+          - gnome-tweaks
+          - htop
+          - ipcalc
+          - jq
+          - keepassxc
+          - libxdo
+          - lm_sensors
+          - mlocate
+          - net-tools
+          - nmap
+          - p7zip
+          - p7zip-plugins
+          - pandoc
+          - python3-pip
+          - rclone
+          - remmina
+          - rsync
+          - sqlite
+          - tidy
+          - tmux
+          - tree
+          - vim
+          - vim-X11
+          - vim-common
+          - wget
+          - xclip
+
+    - name: Download Docker Compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: 0755
+
+    # - name: Install ulauncher
+    #   yum:
+    #     name: https://github.com/Ulauncher/Ulauncher/releases/download/5.11.0/ulauncher_5.11.0_fedora33.rpm
+    #     state: present
+    #     disable_gpg_check: yes
+    
+    - name: Install Package Groups
+      dnf:
+        name: "@Multimedia"
+        state: present
+    
+    - name: Add the flathub flatpak repository remote to the user installation
+      flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    
+    - name: Install FlatHub packages
+      flatpak:
+        name: "{{ item.name }}"
+        state: present
+      with_items:
+        - { name:  org.telegram.desktop }
+        - { name:  md.obsidian.Obsidian }
+    
+    - name: Install Python Packages
+      pip:
+        name:
+          - black
+          - click
+          - psutil
+          - pylint
+        extra_args: --user
+      become: false
+    
+    - name: Install Ansible Module's
+      ansible.builtin.command: 
+        cmd: "{{ item.cmd }}"
+      with_items:
+        - { cmd: ansible-galaxy collection install ansible.posix }
+        - { cmd: ansible-galaxy collection install community.general }
+    
+    - name: Make vim-plug directory
+      file:
+        path: /home/jprice/.vim/autoload
+        owner: jprice
+        group: jprice
+        recurse: yes      
+    
+    - name: Download Vim Plug
+      get_url:
+        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        dest: /home/jprice/.vim/autoload/plug.vim
+        owner: jprice
+        group: jprice
+    
+    - name: Remove default folders
+      file:
+        path: "/home/jprice/{{ item.path }}"
+        state: absent
+      with_items:
+        - { path: Desktop }
+        - { path: Documents }
+        - { path: Music }
+        - { path: Pictures }
+        - { path: Public }
+        - { path: Templates }
+        - { path: Videos }
+    
+    - name: Create folders
+      file:
+        path: "/home/jprice/{{ item.path }}"
+        state: directory
+        owner: jprice
+        group: jprice
+        recurse: yes
+      with_items:
+        - { path: .ssh }
+        - { path: .themes/custom/gnome-shell }
+    
+    - name: Samba share credentials
+      copy:
+        dest: /home/jprice/.samba
+        mode: 0400
+        content: |
+          username={{ vault_samba_username }}
+          password={{ vault_samba_password }}
+          domain=10.0.0.80
+    
+    - name: fstab
+      mount:
+        src: //10.0.0.80/my
+        path: /mnt/my
+        opts: "uid=jprice,gid=users,vers=3.1.1,file_mode=0664,dir_mode=0775,x-systemd.automount,noperm,credentials=/home/jprice/.samba,user"
+        state: mounted
+        fstype: cifs
+    
+    - name: Create symbolic links
+      file:
+        src: /mnt/my
+        dest: /home/jprice/my
+        state: link
+    
+    - name: Gnome Stylesheet
+      copy:
+        src: gnome-shell.css
+        dest: /home/jprice/.themes/custom/gnome-shell/gnome-shell.css
+        owner: jprice
+        group: jprice
+        mode: 0644
+    
+    - name: Download fonts and additional packages
+      unarchive:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        remote_src: yes
+      with_items:
+        - { src: https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip, dest: /tmp }
+        - { src: https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip, dest: /tmp }
+        - { src: https://github.com/federico-terzi/espanso/releases/latest/download/espanso-linux.tar.gz, dest: /tmp }
+    
+    - name: Copy files
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      with_items:
+        # Inconsolata
+        - { src: /tmp/fonts/ttf/, dest: /usr/local/share/fonts/ }
+        # Inter
+        - { src: /tmp/Inter Variable/Inter.ttf, dest: /usr/local/share/fonts/ }
+        - { src: /tmp/espanso, dest: /usr/local/bin/espanso }
+    
+    - name: Make espanso executable
+      ansible.builtin.file:
+        path: /usr/local/bin/espanso
+        mode: 0755
+    
+    - name: Install fonts
+      command: fc-cache /usr/local/share/fonts/
+    
+    - name: Remove existing dotfiles
+      file:
+        path: /home/jprice/.bashrc
+        state: absent
+    
+    - name: Add dotfiles and other config files
+      file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: jprice
+        group: jprice
+        state: link
+      with_items:
+        - { src: "/mnt/my/files/code/dotfiles/bashrc", dest: "/home/jprice/.bashrc" }
+        - { src: "/mnt/my/files/code/dotfiles/vimrc", dest: "/home/jprice/.vimrc" }
+        - { src: "/mnt/my/files/code/dotfiles/tmux.conf", dest: "/home/jprice/.tmux.conf" }
+        - { src: "/mnt/my/files/code/config/espanso/user", dest: "/home/jprice/.config/espanso/user" }
+      become_user: jprice
+      become: false
+
+    - name: Custom Firefox about:config settings
+      copy:
+        dest: /home/jprice/.mozilla/firefox/6udxrp05.default-release/user.js
+        mode: 0644
+        content: |
+          user_pref("browser.compactmode.show", true);
+          user_pref("browser.discovery.enabled", false);
+          user_pref("browser.download.useDownloadDir", false);
+          user_pref("browser.formfill.enable", false);
+          user_pref("browser.newtab.preload", false);
+          user_pref("browser.newtab.url", "about:blank");
+          user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr", false);
+          user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
+          user_pref("browser.newtabpage.activity-stream.enabled", false);
+          user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
+          user_pref("browser.newtabpage.activity-stream.feeds.snippets", false);
+          user_pref("browser.newtabpage.directory.ping", "");
+          user_pref("browser.newtabpage.directory.source", "data:text/plain,{}");
+          user_pref("browser.newtabpage.enabled", false);
+          user_pref("browser.newtabpage.enhanced", false);
+          user_pref("browser.pocket.enabled", false);
+          user_pref("browser.search.context.loadInBackground", true);
+          user_pref("browser.tabs.loadBookmarksInBackground", true);
+          user_pref("browser.tabs.loadBookmarksInTabs", true);
+          user_pref("browser.uidensity", 1);
+          user_pref("browser.uitour.enabled", false);
+          user_pref("browser.urlbar.trimURLs", false);
+          user_pref("datareporting.healthreport.service.enabled", false);
+          user_pref("datareporting.healthreport.uploadEnabled", false);
+          user_pref("datareporting.policy.dataSubmissionEnabled", false);
+          user_pref("dom.event.clipboardevents.enabled", false);
+          user_pref("dom.event.contextmenu.enabled", true);
+          user_pref("experiments.enabled", false);
+          user_pref("experiments.manifest.uri", "");
+          user_pref("experiments.supported", false);
+          user_pref("extensions.pocket.enabled", false);
+          user_pref("layout.word_select.eat_space_to_next_word", false);
+          user_pref("mousewheel.min_line_scroll_amount", 45);
+          user_pref("privacy.trackingprotection.enabled", true);
+          user_pref("privacy.trackingprotection.pbmode.enabled", true);
+          user_pref("signon.rememberSignons", false);
+          user_pref("toolkit.telemetry.archive.enabled", false);
+          user_pref("toolkit.telemetry.enabled", false);
+          user_pref("toolkit.telemetry.unified", false);
+
+    - name: Enable Docker
+      systemd:
+        enabled: yes
+        state: started
+        name: docker
+
+    - name: Enable containerd
+      systemd:
+        enabled: yes
+        state: started
+        name: containerd
+
+    - name: Ensure docker users are added to the docker group.
+      user:
+        name: jprice
+        groups: docker
+        append: true
+
