@@ -7,6 +7,8 @@
   hosts: localhost
   connection: local
   become: true
+  vars_files:
+    - vault.yml
 
   tasks:
   
@@ -270,7 +272,7 @@
         - { src: "/mnt/my/files/code/dotfiles/bashrc", dest: "/home/jprice/.bashrc" }
         - { src: "/mnt/my/files/code/dotfiles/vimrc", dest: "/home/jprice/.vimrc" }
         - { src: "/mnt/my/files/code/dotfiles/tmux.conf", dest: "/home/jprice/.tmux.conf" }
-        - { src: "/mnt/my/files/code/config/espanso/user", dest: "/home/jprice/.config/espanso/user" }
+        - { src: "/mnt/my/files/code/espanso/user", dest: "/home/jprice/.config/espanso/user" }
       become_user: jprice
       become: false
 
