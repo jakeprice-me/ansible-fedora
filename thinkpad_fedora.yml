@@ -67,14 +67,15 @@
           - chromium
           - cifs-utils
           - code
+          - containerd.io
           - curl
           - dconf-editor
+          - dnsutils
           - docker-ce
           - docker-ce-cli
-          - containerd.io
-          - dnsutils
           - dos2unix
           - ffmpeg
+          - flameshot
           - fsearch
           - fzf
           - git
