@@ -115,12 +115,6 @@
         url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
         dest: /usr/local/bin/docker-compose
         mode: 0755
-
-    # - name: Install ulauncher
-    #   yum:
-    #     name: https://github.com/Ulauncher/Ulauncher/releases/download/5.11.0/ulauncher_5.11.0_fedora33.rpm
-    #     state: present
-    #     disable_gpg_check: yes
     
     - name: Install Package Groups
       dnf:
