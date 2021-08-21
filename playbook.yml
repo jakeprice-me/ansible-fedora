@@ -190,6 +190,7 @@
       with_items:
         - { path: .ssh }
         - { path: .themes/custom/gnome-shell }
+        - { path: .config/espanso }
     
     - name: Samba share credentials
       copy:
