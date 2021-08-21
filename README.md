@@ -23,23 +23,35 @@ ansible-galaxy collection install community.general
 Clone the repository into `~/Downloads`.
 
 ```sh
-git clone https://git.jacobprice.tech/jprice/ansible-thinkpad-fedora.git ~/Downloads/
+git clone https://git.jacobprice.tech/jprice/ansible-thinkpad-fedora.git ~/Downloads/ansible-thinkpad-fedora
 ```
 
 ## Ansible Vault
 
-Create an Ansible Vault file, and corresponding `.vault_password` file.
+To save specifying the password when you create or edit the vault, or, run the playbook, `ansible.cfg` contains the path to `.vault_password`.
 
-`vault.yml` should contain the values for:
+```ini
+[defaults]
+vault_password_file = .vault_password
+```
 
-- `vault_samba_username`
-- `vault_samba_password`
+`vault.yml` must contain the below variables and their values.
 
-The `vault.yml` file is encrypted and passphrase protected. `.vault_password` is not committed to version control. If lost create a new `vault.yml` and enter values for the above (stored in KeePass).
+```yml
+vault_samba_username: <username>
+vault_samba_password: <password>
+```
+
+The values can be retrieved from the `vault.kdbx` KeePass database.
+
+Create the `ansible-vault` file, and the corresponding `.vault_password` file.
 
 ```sh
+# Change to repository directory:
+cd ~/Downloads/ansible-thinkpad-fedora
+
 # Create .vault_password:
-echo $(tr --complement --delete '[:alnum:]' < /dev/urandom | fold --width=64 | head --lines=1) > .vault_password.yml
+echo $(tr --complement --delete '[:alnum:]' < /dev/urandom | fold --width=64 | head --lines=1) > .vault_password
 
 # Create vault:
 ansible-vault create vault.yml
@@ -49,23 +61,11 @@ vault_samba_username: <username>
 vault_samba_password: <password>
 ```
 
-## Ansible Config
-
-To save specifying the vault password, `ansible.cfg` contains the path to `.vault_password`.
-
-```ini
-[defaults]
-vault_password_file = .vault_password
-```
-
 ## Run Playbook
 
-Following a fresh installation of Fedora, you'll need to install Ansible first, before you can run the playbook locally.
+Run the playbook to configure the new installation of Fedora.
 
 ```sh
-# Install Ansible:
-sudo dnf install ansible
-
 # Run Playbook:
-ansible-playbook thinkpad_fedora.yml
+ansible-playbook playbook.yml
 ```
