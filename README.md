@@ -2,12 +2,28 @@
 
 This playbook configures my ThinkPad T480, following a fresh installation of Fedora.
 
+## Install Ansible
+
+Install Ansible using `dnf`.
+
+```sh
+sudo dnf install ansible --assumeyes
+```
+
 ## Ansible Galaxy Collections
 
 Install the following collections when running on a fresh Fedora install.
 
 ```sh
 ansible-galaxy collection install community.general
+```
+
+## Clone Repository
+
+Clone this repository.
+
+```sh
+git clone https://git.jacobprice.tech/jprice/ansible-thinkpad-fedora.git
 ```
 
 ## Ansible Vault
@@ -21,7 +37,7 @@ The `vault.yml` file is encrypted and passphrase protected. `.vault_password` is
 
 ```sh
 # Create .vault_password:
-echo $(genpwd) > .vault_password.yml
+echo $(tr --complement --delete '[:alnum:]' < /dev/urandom | fold --width=64 | head --lines=1) > .vault_password.yml
 
 # Create vault:
 ansible-vault create vault.yml
@@ -51,4 +67,3 @@ sudo dnf install ansible
 # Run Playbook:
 ansible-playbook thinkpad_fedora.yml
 ```
-
