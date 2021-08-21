@@ -190,7 +190,8 @@
       with_items:
         - { path: .ssh }
         - { path: .themes/custom/gnome-shell }
-    
+        - { path: .config/espanso }
+ 
     - name: Samba share credentials
       copy:
         dest: /home/jprice/.samba
@@ -271,9 +272,16 @@
       become_user: jprice
       become: false
 
+    - name: Get Firefox default release profile name
+      find:
+        paths: /home/jprice/.mozilla/firefox/
+        file_type: directory
+        patterns: '*.default-release'
+      register: firefox_profile
+
     - name: Custom Firefox about:config settings
       copy:
-        dest: /home/jprice/.mozilla/firefox/6udxrp05.default-release/user.js
+        dest: "{{ firefox_profile | json_query('files[*].path | [0]') | replace ('\"', '') }}/user.js"
         mode: 0644
         content: |
           user_pref("browser.compactmode.show", true);
