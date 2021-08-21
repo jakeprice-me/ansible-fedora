@@ -93,6 +93,7 @@
           - mlocate
           - net-tools
           - nmap
+          - openssl
           - p7zip
           - p7zip-plugins
           - pandoc
