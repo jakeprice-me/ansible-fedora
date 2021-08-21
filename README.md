@@ -10,14 +10,6 @@ Install Ansible using `dnf`.
 sudo dnf install ansible --assumeyes
 ```
 
-## Ansible Galaxy Collections
-
-Install the following collections when running on a fresh Fedora install.
-
-```sh
-ansible-galaxy collection install community.general
-```
-
 ## Clone Repository
 
 Clone the repository into `~/Downloads`.
@@ -59,6 +51,14 @@ ansible-vault create vault.yml
 # Enter the username and password values:
 vault_samba_username: <username>
 vault_samba_password: <password>
+```
+
+## Ansible Collections
+
+Still within the repository directory, install the collections specified in `requirements.yml`.
+
+```sh
+ansible-galaxy collection install -r requirements.yml
 ```
 
 ## Run Playbook
