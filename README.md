@@ -20,13 +20,15 @@ ansible-galaxy collection install community.general
 
 ## Clone Repository
 
-Clone this repository.
+Clone the repository into `~/Downloads`.
 
 ```sh
-git clone https://git.jacobprice.tech/jprice/ansible-thinkpad-fedora.git
+git clone https://git.jacobprice.tech/jprice/ansible-thinkpad-fedora.git ~/Downloads/
 ```
 
 ## Ansible Vault
+
+Create an Ansible Vault file, and corresponding `.vault_password` file.
 
 `vault.yml` should contain the values for:
 
