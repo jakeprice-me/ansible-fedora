@@ -63,9 +63,9 @@ vault_samba_password: <password>
 
 ## Run Playbook
 
-Run the playbook to configure the new installation of Fedora.
+Run the playbook to configure the new installation of Fedora, and input your `sudo` password when prompted.
 
 ```sh
 # Run Playbook:
-ansible-playbook playbook.yml
+ansible-playbook --ask-become-pass playbook.yml
 ```
