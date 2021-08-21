@@ -191,7 +191,11 @@
         - { path: .ssh }
         - { path: .themes/custom/gnome-shell }
         - { path: .config/espanso }
+<<<<<<< HEAD
  
+=======
+    
+>>>>>>> 37c81178c5d6cbefee61714ad0775f6d7def1d15
     - name: Samba share credentials
       copy:
         dest: /home/jprice/.samba
