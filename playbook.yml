@@ -7,6 +7,8 @@
   hosts: localhost
   connection: local
   become: true
+  vars:
+    - default_username: jprice
   vars_files:
     - vault.yml
 
@@ -146,30 +148,23 @@
         extra_args: --user
       become: false
     
-    - name: Install Ansible Module's
-      ansible.builtin.command: 
-        cmd: "{{ item.cmd }}"
-      with_items:
-        - { cmd: ansible-galaxy collection install ansible.posix }
-        - { cmd: ansible-galaxy collection install community.general }
-    
     - name: Make vim-plug directory
       file:
-        path: /home/jprice/.vim/autoload
-        owner: jprice
-        group: jprice
+        path: "/home/{{ default_username }}/.vim/autoload"
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
         recurse: yes      
     
     - name: Download Vim Plug
       get_url:
         url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        dest: /home/jprice/.vim/autoload/plug.vim
-        owner: jprice
-        group: jprice
+        dest: "/home/{{ default_username }}/.vim/autoload/plug.vim"
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
     
     - name: Remove default folders
       file:
-        path: "/home/jprice/{{ item.path }}"
+        path: "/home/{{ default_username }}/{{ item.path }}"
         state: absent
       with_items:
         - { path: Desktop }
@@ -182,10 +177,10 @@
     
     - name: Create folders
       file:
-        path: "/home/jprice/{{ item.path }}"
+        path: "/home/{{ default_username }}/{{ item.path }}"
         state: directory
-        owner: jprice
-        group: jprice
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
         recurse: yes
       with_items:
         - { path: .ssh }
@@ -194,7 +189,7 @@
 
     - name: Samba share credentials
       copy:
-        dest: /home/jprice/.samba
+        dest: "/home/{{ default_username }}/.samba"
         mode: 0400
         content: |
           username={{ vault_samba_username }}
@@ -205,22 +200,22 @@
       mount:
         src: //10.0.0.80/my
         path: /mnt/my
-        opts: "uid=jprice,gid=users,vers=3.1.1,file_mode=0664,dir_mode=0775,x-systemd.automount,noperm,credentials=/home/jprice/.samba,user"
+        opts: "uid={{ default_username }},gid=users,vers=3.1.1,file_mode=0664,dir_mode=0775,x-systemd.automount,noperm,credentials=/home/{{ default_username }}/.samba,user"
         state: mounted
         fstype: cifs
     
     - name: Create symbolic links
       file:
         src: /mnt/my
-        dest: /home/jprice/my
+        dest: "/home/{{ default_username }}/my"
         state: link
     
     - name: Gnome Stylesheet
       copy:
         src: gnome-shell.css
-        dest: /home/jprice/.themes/custom/gnome-shell/gnome-shell.css
-        owner: jprice
-        group: jprice
+        dest: "/home/{{ default_username }}/.themes/custom/gnome-shell/gnome-shell.css"
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
         mode: 0644
     
     - name: Download fonts and additional packages
@@ -254,27 +249,27 @@
     
     - name: Remove existing dotfiles
       file:
-        path: /home/jprice/.bashrc
+        path: "/home/{{ default_username }}/.bashrc"
         state: absent
     
     - name: Add dotfiles and other config files
       file:
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
-        owner: jprice
-        group: jprice
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
         state: link
       with_items:
-        - { src: "/mnt/my/files/code/dotfiles/bashrc", dest: "/home/jprice/.bashrc" }
-        - { src: "/mnt/my/files/code/dotfiles/vimrc", dest: "/home/jprice/.vimrc" }
-        - { src: "/mnt/my/files/code/dotfiles/tmux.conf", dest: "/home/jprice/.tmux.conf" }
-        - { src: "/mnt/my/files/code/espanso/user", dest: "/home/jprice/.config/espanso/user" }
-      become_user: jprice
+        - { src: "/mnt/my/files/code/dotfiles/bashrc", dest: "/home/{{ default_username }}/.bashrc" }
+        - { src: "/mnt/my/files/code/dotfiles/vimrc", dest: "/home/{{ default_username }}/.vimrc" }
+        - { src: "/mnt/my/files/code/dotfiles/tmux.conf", dest: "/home/{{ default_username }}/.tmux.conf" }
+        - { src: "/mnt/my/files/code/espanso/user", dest: "/home/{{ default_username }}/.config/espanso/user" }
+      become_user: "{{ default_username }}"
       become: false
 
     - name: Get Firefox default release profile name
       find:
-        paths: /home/jprice/.mozilla/firefox/
+        paths: "/home/{{ default_username }}/.mozilla/firefox/"
         file_type: directory
         patterns: '*.default-release'
       register: firefox_profile
@@ -338,7 +333,7 @@
 
     - name: Ensure docker users are added to the docker group.
       user:
-        name: jprice
+        name: "{{ default_username }}"
         groups: docker
         append: true
 
