@@ -339,6 +339,7 @@
       with_items:
         - { key: "/org/gnome/desktop/interface/clock-format", value: "'24h'", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/interface/font-name", value: "'Inter Regular 10'", state: "present" }
         - { key: "/org/gnome/desktop/interface/locate-pointer", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Inconsolata Regular 13'", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll", value: "true", state: "present" }
@@ -373,5 +374,4 @@
         name: "{{ default_username }}"
         groups: docker
         append: true
-
 
