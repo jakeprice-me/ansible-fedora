@@ -147,7 +147,8 @@
           - psutil
           - pylint
         extra_args: --user
-      become: false
+      become: true
+      become_user: jprice
     
     - name: Make vim-plug directory
       file:
@@ -329,6 +330,32 @@
           user_pref("toolkit.telemetry.enabled", false);
           user_pref("toolkit.telemetry.unified", false);
 
+    - name: Set Gnome dconf preferences
+      community.general.dconf:
+        key: "{{ item.key }}"
+        value: "{{ item.value }}"
+        state: "{{ item.state }}"
+      become_user: jprice
+      with_items:
+        - { key: "/org/gnome/desktop/interface/clock-format", value: "'24h'", state: "present" }
+        - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/interface/locate-pointer", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Inconsolata Regular 13'", state: "present" }
+        - { key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/thumbnail-cache/touchpad/natural-scroll", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/wm/keybindings/move-to-center", value: "['<Control><Super>c']", state: "present" }
+        - { key: "/org/gnome/desktop/wm/keybindings/show-desktop", value: "['<Super>d']", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/always-use-location-entry", value: "true", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/default-folder-viewer", value: "'list-view'", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/recursive-search", value: "'always'", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/show-create-link", value: "true", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/show-delete-permanently", value: "true", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/show-directory-item-counts", value: "'always'", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/show-image-thumbnails", value: "'always'", state: "present" }
+        - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
+        - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
+
     - name: Enable Docker
       systemd:
         enabled: yes
@@ -346,4 +373,5 @@
         name: "{{ default_username }}"
         groups: docker
         append: true
+
 
