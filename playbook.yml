@@ -319,7 +319,6 @@
           user_pref("experiments.manifest.uri", "");
           user_pref("experiments.supported", false);
           user_pref("extensions.pocket.enabled", false);
-          user_pref("keyword.enabled", false);
           user_pref("layout.word_select.eat_space_to_next_word", false);
           user_pref("mousewheel.min_line_scroll_amount", 45);
           user_pref("network.allow-experiments", false);
