@@ -43,20 +43,6 @@
         state: enabled
         name: inori39/fsearch
 
-    - name: Import Visual Studio Code Repo Key
-      ansible.builtin.rpm_key:
-        state: present
-        key: https://packages.microsoft.com/keys/microsoft.asc
-    
-    - name: Add Visual Studio Code Repository
-      yum_repository:
-        name: "VSCodeRepo"
-        description: "Visual Studio Code Repository"
-        file: vscode
-        baseurl: https://packages.microsoft.com/yumrepos/vscode
-        gpgkey: https://packages.microsoft.com/keys/microsoft.asc
-        gpgcheck: yes
-
     - name: Download Docker Repository
       get_url:
         url: https://download.docker.com/linux/fedora/docker-ce.repo
@@ -70,7 +56,6 @@
           - bat
           - chromium
           - cifs-utils
-          - code
           - containerd.io
           - curl
           - dconf-editor
@@ -82,6 +67,7 @@
           - flameshot
           - fsearch
           - fzf
+          - gimp
           - git
           - gnome-extensions-app
           - gnome-shell-extension-user-theme
@@ -100,6 +86,7 @@
           - p7zip
           - p7zip-plugins
           - pandoc
+          - powertop
           - python3-pip
           - rclone
           - remmina
@@ -339,14 +326,21 @@
       with_items:
         - { key: "/org/gnome/desktop/interface/clock-format", value: "'24h'", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/font-name", value: "'Inter Regular 10'", state: "present" }
         - { key: "/org/gnome/desktop/interface/locate-pointer", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Inconsolata Regular 13'", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/screensaver/idle-activation-enabled", value: "false", state: "present" }
+        - { key: "/org/gnome/desktop/session/idle-delay", value: "'0'", state: "present" }
         - { key: "/org/gnome/desktop/thumbnail-cache/touchpad/natural-scroll", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/wm/keybindings/move-to-center", value: "['<Control><Super>c']", state: "present" }
         - { key: "/org/gnome/desktop/wm/keybindings/show-desktop", value: "['<Super>d']", state: "present" }
+        - { key: "/org/gnome/desktop/wm/preferences/button-layout", value: "'close:appmenu'", state: "present" }
+        - { key: "/org/gnome/desktop/wm/preferences/titlebar-font", value: "'Inter Regular 10'", state: "present" }
+        - { key: "/org/gnome/mutter/attach-modal-dialogs", value: "false", state: "present" }
+        - { key: "/org/gnome/mutter/center-new-windows", value: "true", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/always-use-location-entry", value: "true", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/default-folder-viewer", value: "'list-view'", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/recursive-search", value: "'always'", state: "present" }
@@ -354,6 +348,10 @@
         - { key: "/org/gnome/nautilus/preferences/show-delete-permanently", value: "true", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/show-directory-item-counts", value: "'always'", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/show-image-thumbnails", value: "'always'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type", value: "'nothing'", state: "present" }
+        - { key: "/org/gnome/shell/favorite-apps", value: "['io.github.cboxdoerfer.FSearch.desktop', 'firefox.desktop', 'org.gnome.Terminal.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
 
