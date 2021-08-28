@@ -124,7 +124,6 @@
         state: present
       with_items:
         - { name:  org.telegram.desktop }
-        - { name:  md.obsidian.Obsidian }
     
     - name: Install Python Packages
       pip:
