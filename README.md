@@ -15,7 +15,7 @@ sudo dnf install ansible --assumeyes
 Clone the repository into `~/Downloads`.
 
 ```sh
-git clone https://git.jacobprice.tech/jprice/ansible-thinkpad-fedora.git ~/Downloads/ansible-thinkpad-fedora
+git clone https://git.jpr.sh/jprice/ansible-thinkpad-fedora.git ~/Downloads/ansible-thinkpad-fedora
 ```
 
 ## Ansible Vault
