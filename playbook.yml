@@ -85,6 +85,7 @@
           - openssl
           - p7zip
           - p7zip-plugins
+          - papirus-icon-theme
           - pandoc
           - powertop
           - python3-pip
@@ -368,6 +369,7 @@
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/font-name", value: "'Inter Regular 10'", state: "present" }
+        - { key: "/org/gnome/desktop/interface/icon-theme", value: "'Papirus'", state: "present" }
         - { key: "/org/gnome/desktop/interface/locate-pointer", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Ubuntu Mono Regular 13'", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll", value: "true", state: "present" }
@@ -391,7 +393,7 @@
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type", value: "'nothing'", state: "present" }
-        - { key: "/org/gnome/shell/favorite-apps", value: "['io.github.cboxdoerfer.FSearch.desktop', 'firefox.desktop', 'org.gnome.Terminal.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
+        - { key: "/org/gnome/shell/favorite-apps", value: "['io.github.cboxdoerfer.FSearch.desktop', 'firefox.desktop', 'org.gnome.Terminal.desktop', 'gvim.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
 
