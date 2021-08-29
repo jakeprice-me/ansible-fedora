@@ -197,15 +197,7 @@
         src: /mnt/my
         dest: "/home/{{ default_username }}/my"
         state: link
-    
-    - name: Gnome Stylesheet
-      copy:
-        src: gnome-shell.css
-        dest: "/home/{{ default_username }}/.themes/custom/gnome-shell/gnome-shell.css"
-        owner: "{{ default_username }}"
-        group: "{{ default_username }}"
-        mode: 0644
-    
+
     - name: Download fonts and additional packages
       unarchive:
         src: "{{ item.src }}"
@@ -315,6 +307,44 @@
           user_pref("toolkit.telemetry.archive.enabled", false);
           user_pref("toolkit.telemetry.enabled", false);
           user_pref("toolkit.telemetry.unified", false);
+
+    - name: Gnome Stylesheet
+      copy:
+        dest: "/home/{{ default_username }}/.themes/custom/gnome-shell/gnome-shell.css"
+        mode: 0644
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
+        content: |
+          @import url("resource:///org/gnome/theme/gnome-shell.css");
+
+          stage {
+              font-family: Inter;
+              font-size: 13px;
+          }
+
+    - name: Nautilus Bookmarks
+      copy:
+        dest: "/home/{{ default_username }}/.config/gtk-3.0/bookmarks"
+        mode: 0644
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
+        content: |
+          file:///home/jprice/my
+          file:///home/jprice/Downloads
+    
+    - name: Gnome terminal padding
+      copy:
+        dest: "/home/{{ default_username }}/.config/gtk-3.0/gtk.css"
+        mode: 0644
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
+        content: |
+          VteTerminal,
+          TerminalScreen,
+          vte-terminal {
+              padding: 20px;
+              -VteTerminal-inner-border: 20px;
+          }
 
     - name: Set Gnome dconf preferences
       community.general.dconf:
