@@ -373,7 +373,7 @@
         - { key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/screensaver/idle-activation-enabled", value: "false", state: "present" }
-        - { key: "/org/gnome/desktop/session/idle-delay", value: "'0'", state: "present" }
+        - { key: "/org/gnome/desktop/session/idle-delay", value: "uint32 0", state: "present" }
         - { key: "/org/gnome/desktop/thumbnail-cache/touchpad/natural-scroll", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/wm/keybindings/move-to-center", value: "['<Control><Super>c']", state: "present" }
         - { key: "/org/gnome/desktop/wm/keybindings/show-desktop", value: "['<Super>d']", state: "present" }
