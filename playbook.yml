@@ -178,6 +178,8 @@
     - name: Samba share credentials
       copy:
         dest: "/home/{{ default_username }}/.samba"
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
         mode: 0400
         content: |
           username={{ vault_samba_username }}
@@ -202,9 +204,12 @@
       unarchive:
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
         remote_src: yes
       with_items:
         - { src: https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip, dest: /tmp }
+        - { src: https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip, dest: /tmp }
         - { src: https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip, dest: /tmp }
         - { src: https://github.com/federico-terzi/espanso/releases/latest/download/espanso-linux.tar.gz, dest: /tmp }
     
@@ -213,10 +218,16 @@
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
       with_items:
-        # Inconsolata
+        # Inconsolata:
         - { src: /tmp/fonts/ttf/, dest: /usr/local/share/fonts/ }
-        # Inter
+        # Inter:
         - { src: /tmp/Inter Variable/Inter.ttf, dest: /usr/local/share/fonts/ }
+        # Ubuntu Mono:
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-BI.ttf, dest: /usr/local/share/fonts/ }
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-B.ttf, dest: /usr/local/share/fonts/ }
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-RI.ttf, dest: /usr/local/share/fonts/ }
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-R.ttf, dest: /usr/local/share/fonts/ }
+        # Espanso:
         - { src: /tmp/espanso, dest: /usr/local/bin/espanso }
     
     - name: Make espanso executable
@@ -358,7 +369,7 @@
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/font-name", value: "'Inter Regular 10'", state: "present" }
         - { key: "/org/gnome/desktop/interface/locate-pointer", value: "true", state: "present" }
-        - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Inconsolata Regular 13'", state: "present" }
+        - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Ubuntu Mono Regular 13'", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/screensaver/idle-activation-enabled", value: "false", state: "present" }
