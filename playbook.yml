@@ -87,6 +87,7 @@
           - p7zip-plugins
           - papirus-icon-theme
           - pandoc
+          - power-profiles-daemon
           - python3-pip
           - rclone
           - remmina
