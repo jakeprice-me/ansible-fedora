@@ -12,357 +12,359 @@
 
   tasks:
   
-    #    - name: Set timezone
-    #      community.general.timezone:
-    #        name: Europe/London
-    #    
-    #    - name: Set hostname
-    #      hostname:
-    #        name: thinkpad
-    #    
-    #    - name: Update repositories and packages
-    #      dnf:
-    #        name: "*"
-    #        state: latest
-    #        update_cache: yes
-    #    
-    #    - name: Install RPM Fusion
-    #      dnf:
-    #        name: "{{ item.name }}"
-    #        state: present
-    #        disable_gpg_check: yes
-    #      with_items:
-    #        - { name: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-34.noarch.rpm" }
-    #        - { name: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-34.noarch.rpm" }
-    #
-    #    - name: Configure dnf
-    #      blockinfile:
-    #        path: /etc/dnf/dnf.conf
-    #        block: |
-    #          fastestmirror=true
-    #          max_parallel_downloads=20
-    #      become: true
-    #
-    #    - name: Install packages
-    #      dnf:
-    #        state: latest
-    #        name: 
-    #          - android-tools
-    #          - bat
-    #          - chromium
-    #          - cifs-utils
-    #          - copyq
-    #          - curl
-    #          - dconf-editor
-    #          - dnsutils
-    #          - dos2unix
-    #          - fd-find
-    #          - flameshot
-    #          - fzf
-    #          - git
-    #          - gnome-extensions-app
-    #          - gnome-shell-extension-user-theme
-    #          - gnome-tweaks
-    #          - ipcalc
-    #          - jq
-    #          - keepassxc
-    #          - libxdo
-    #          - lm_sensors
-    #          - net-tools
-    #          - nmap
-    #          - openssl
-    #          - p7zip
-    #          - p7zip-plugins
-    #          - papirus-icon-theme
-    #          - pandoc
-    #          - python3-devel
-    #          - python3-pip
-    #          - remmina
-    #          - tftp
-    #          - thunderbird
-    #          - tmux
-    #          - tree
-    #          - vim
-    #          - vim-X11
-    #          - vim-common
-    #          - wget
-    #          - xclip
-    #
-    #    - name: Install Package Groups
-    #      dnf:
-    #        name: "@Multimedia"
-    #        state: present
-    #
-    #    - name: Add the flathub flatpak repository remote to the user installation
-    #      flatpak_remote:
-    #        name: flathub
-    #        state: present
-    #        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
-    #    
-    #    - name: Install FlatHub packages
-    #      flatpak:
-    #        name: "{{ item.name }}"
-    #        state: present
-    #      with_items:
-    #        - { name:  org.telegram.desktop }
-    #        - { name:  com.jgraph.drawio.desktop }
-    #
-    #    - name: Install Python Packages
-    #      pip:
-    #        name:
-    #          - black
-    #          - psutil
-    #          - pylint
-    #        extra_args: --user
-    #      become: true
-    #      become_user: "{{ personal_username }}"
-    #    
-    #    - name: Make vim-plug directory
-    #      file:
-    #        path: "/home/{{ personal_username }}/.vim/autoload"
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        recurse: yes      
-    #    
-    #    - name: Download Vim Plug
-    #      get_url:
-    #        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    #        dest: "/home/{{ personal_username }}/.vim/autoload/plug.vim"
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #    
-    #    - name: Remove default folders
-    #      file:
-    #        path: "/home/{{ personal_username }}/{{ item.path }}"
-    #        state: absent
-    #      with_items:
-    #        - { path: Desktop }
-    #        - { path: Documents }
-    #        - { path: Music }
-    #        - { path: Pictures }
-    #        - { path: Public }
-    #        - { path: Templates }
-    #        - { path: Videos }
-    #    
-    #    - name: Create folders
-    #      file:
-    #        path: "/home/{{ personal_username }}/{{ item.path }}"
-    #        state: directory
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        recurse: yes
-    #      with_items:
-    #        - { path: .ssh }
-    #        - { path: .themes/custom/gnome-shell }
-    #        - { path: .config/espanso }
-    #
-    #    - name: Add regular Unison file syncs
-    #      ansible.builtin.cron:
-    #        name: "Unison Sync"
-    #        minute: "*/5"
-    #        hour: "*"
-    #        weekday: "*"
-    #        job: /usr/bin/bash /home/{{ personal_username }}/my/files/code/bash-scripts/unison_my_sync.sh
-    #      become: yes
-    #      become_user: "{{ personal_username }}"
-    #
-    #    - name: Download fonts and additional packages
-    #      unarchive:
-    #        src: "{{ item.src }}"
-    #        dest: "{{ item.dest }}"
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        remote_src: yes
-    #      with_items:
-    #        - { src: https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip, dest: /tmp }
-    #        - { src: https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip, dest: /tmp }
-    #        - { src: https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip, dest: /tmp }
-    #        - { src: https://github.com/federico-terzi/espanso/releases/latest/download/espanso-linux.tar.gz, dest: /tmp }
-    #    
-    #    - name: Copy files
-    #      copy:
-    #        src: "{{ item.src }}"
-    #        dest: "{{ item.dest }}"
-    #      with_items:
-    #        # Inconsolata:
-    #        - { src: /tmp/fonts/ttf/, dest: /usr/local/share/fonts/ }
-    #        # Inter:
-    #        - { src: /tmp/Inter Variable/Inter.ttf, dest: /usr/local/share/fonts/ }
-    #        # Ubuntu Mono:
-    #        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-BI.ttf, dest: /usr/local/share/fonts/ }
-    #        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-B.ttf, dest: /usr/local/share/fonts/ }
-    #        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-RI.ttf, dest: /usr/local/share/fonts/ }
-    #        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-R.ttf, dest: /usr/local/share/fonts/ }
-    #        # Espanso:
-    #        - { src: /tmp/espanso, dest: /usr/local/bin/espanso }
-    #    
-    #    - name: Make espanso executable
-    #      ansible.builtin.file:
-    #        path: /usr/local/bin/espanso
-    #        mode: 0755
-    #    
-    #    - name: Install fonts
-    #      command: fc-cache /usr/local/share/fonts/
-    #    
-    #    - name: Remove existing dotfiles
-    #      file:
-    #        path: "/home/{{ personal_username }}/.bashrc"
-    #        state: absent
-    #    
-    #    - name: Add dotfiles and other config files
-    #      file:
-    #        src: "{{ item.src }}"
-    #        dest: "{{ item.dest }}"
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        state: link
-    #      with_items:
-    #        - { src: "~/my/files/code/dotfiles/bashrc", dest: "/home/{{ personal_username }}/.bashrc" }
-    #        - { src: "~/my/files/code/dotfiles/vimrc", dest: "/home/{{ personal_username }}/.vimrc" }
-    #        - { src: "~/my/files/code/dotfiles/tmux.conf", dest: "/home/{{ personal_username }}/.tmux.conf" }
-    #        - { src: "~/my/files/code/espanso/user", dest: "/home/{{ personal_username }}/.config/espanso/user" }
-    #      become_user: "{{ personal_username }}"
-    #      become: false
-    #
-    #    - name: Get Firefox default release profile name
-    #      find:
-    #        paths: "/home/{{ personal_username }}/.mozilla/firefox/"
-    #        file_type: directory
-    #        patterns: '*.default-release'
-    #      register: firefox_profile
-    #
-    #    - name: Custom Firefox about:config settings
-    #      copy:
-    #        dest: "{{ firefox_profile | json_query('files[*].path | [0]') | replace ('\"', '') }}/user.js"
-    #        mode: 0644
-    #        content: |
-    #          user_pref("browser.aboutHomeSnippets.updateUrl", "");
-    #          user_pref("browser.compactmode.show", true);
-    #          user_pref("browser.discovery.enabled", false);
-    #          user_pref("browser.download.useDownloadDir", false);
-    #          user_pref("browser.fixup.alternate.enabled", false);
-    #          user_pref("browser.formfill.enable", false);
-    #          user_pref("browser.formfill.expire_days",	0);
-    #          user_pref("browser.helperApps.deleteTempFileOnExit", true);
-    #          user_pref("browser.newtab.preload", false);
-    #          user_pref("browser.newtab.url", "about:blank");
-    #          user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr", false);
-    #          user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
-    #          user_pref("browser.newtabpage.activity-stream.enabled", false);
-    #          user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
-    #          user_pref("browser.newtabpage.activity-stream.feeds.snippets", false);
-    #          user_pref("browser.newtabpage.directory.ping", "");
-    #          user_pref("browser.newtabpage.directory.source", "data:text/plain,{}");
-    #          user_pref("browser.newtabpage.enabled", false);
-    #          user_pref("browser.newtabpage.enhanced", false);
-    #          user_pref("browser.pocket.enabled", false);
-    #          user_pref("browser.search.suggest.enabled", false);
-    #          user_pref("browser.search.context.loadInBackground", true);
-    #          user_pref("browser.search.update", false);
-    #          user_pref("browser.startup.homepage", "{{ firefox_start_page }}");
-    #          user_pref("browser.tabs.loadBookmarksInBackground", true);
-    #          user_pref("browser.tabs.loadBookmarksInTabs", true);
-    #          user_pref("browser.uidensity", 1);
-    #          user_pref("browser.uitour.enabled", false);
-    #          user_pref("browser.uitour.enabled", false);
-    #          user_pref("browser.urlbar.trimURLs", false);
-    #          user_pref("clipboard.autocopy", false);
-    #          user_pref("datareporting.healthreport.service.enabled", false);
-    #          user_pref("datareporting.healthreport.uploadEnabled", false);
-    #          user_pref("datareporting.policy.dataSubmissionEnabled", false);
-    #          user_pref("datareporting.policy.dataSubmissionEnabled", false);
-    #          user_pref("dom.event.clipboardevents.enabled", false);
-    #          user_pref("dom.event.contextmenu.enabled", true);
-    #          user_pref("experiments.enabled", false);
-    #          user_pref("experiments.manifest.uri", "");
-    #          user_pref("experiments.supported", false);
-    #          user_pref("extensions.pocket.enabled", false);
-    #          user_pref("layout.word_select.eat_space_to_next_word", false);
-    #          user_pref("mousewheel.min_line_scroll_amount", 25);
-    #          user_pref("network.allow-experiments", false);
-    #          user_pref("privacy.trackingprotection.enabled", true);
-    #          user_pref("privacy.trackingprotection.pbmode.enabled", true);
-    #          user_pref("signon.rememberSignons", false);
-    #          user_pref("toolkit.telemetry.archive.enabled", false);
-    #          user_pref("toolkit.telemetry.enabled", false);
-    #          user_pref("toolkit.telemetry.unified", false);
-    #
-    #    - name: Create custom Gnome Shell theme
-    #      copy:
-    #        dest: "/home/{{ personal_username }}/.themes/custom/gnome-shell/gnome-shell.css"
-    #        mode: 0644
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        content: |
-    #          @import url("resource:///org/gnome/theme/gnome-shell.css");
-    #
-    #          stage {
-    #              font-family: Inter;
-    #              font-size: 13px;
-    #          }
-    #
-    #    - name: Nautilus Bookmarks
-    #      copy:
-    #        dest: "/home/{{ personal_username }}/.config/gtk-3.0/bookmarks"
-    #        mode: 0644
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        content: |
-    #          file:///home/{{ personal_username }}/my
-    #          file:///home/{{ personal_username }}/Downloads
-    #    
-    #    - name: Gnome terminal padding
-    #      copy:
-    #        dest: "/home/{{ personal_username }}/.config/gtk-3.0/gtk.css"
-    #        mode: 0644
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        content: |
-    #          VteTerminal,
-    #          TerminalScreen,
-    #          vte-terminal {
-    #              padding: 10px;
-    #              -VteTerminal-inner-border: 10px;
-    #          }
-    #
-    #    - name: Set Gnome dconf preferences
-    #      community.general.dconf:
-    #        key: "{{ item.key }}"
-    #        value: "{{ item.value }}"
-    #        state: "{{ item.state }}"
-    #      become_user: "{{ personal_username }}"
-    #      with_items:
-    #        - { key: "/org/gnome/desktop/interface/clock-format", value: "'24h'", state: "present" }
-    #        - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
-    #        - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
-    #        - { key: "/org/gnome/desktop/interface/font-name", value: "'Inter Regular 10'", state: "present" }
-    #        - { key: "/org/gnome/desktop/interface/icon-theme", value: "'Papirus'", state: "present" }
-    #        - { key: "/org/gnome/desktop/interface/locate-pointer", value: "true", state: "present" }
-    #        - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Ubuntu Mono Regular 13'", state: "present" }
-    #        - { key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll", value: "true", state: "present" }
-    #        - { key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click", value: "true", state: "present" }
-    #        - { key: "/org/gnome/desktop/screensaver/idle-activation-enabled", value: "false", state: "present" }
-    #        - { key: "/org/gnome/desktop/session/idle-delay", value: "uint32 0", state: "present" }
-    #        - { key: "/org/gnome/desktop/thumbnail-cache/touchpad/natural-scroll", value: "true", state: "present" }
-    #        - { key: "/org/gnome/desktop/wm/keybindings/move-to-center", value: "['<Control><Super>c']", state: "present" }
-    #        - { key: "/org/gnome/desktop/wm/keybindings/show-desktop", value: "['<Super>d']", state: "present" }
-    #        - { key: "/org/gnome/desktop/wm/preferences/button-layout", value: "'close:appmenu'", state: "present" }
-    #        - { key: "/org/gnome/desktop/wm/preferences/titlebar-font", value: "'Inter Regular 10'", state: "present" }
-    #        - { key: "/org/gnome/mutter/attach-modal-dialogs", value: "false", state: "present" }
-    #        - { key: "/org/gnome/mutter/center-new-windows", value: "true", state: "present" }
-    #        - { key: "/org/gnome/nautilus/preferences/always-use-location-entry", value: "true", state: "present" }
-    #        - { key: "/org/gnome/nautilus/preferences/default-folder-viewer", value: "'list-view'", state: "present" }
-    #        - { key: "/org/gnome/nautilus/preferences/recursive-search", value: "'always'", state: "present" }
-    #        - { key: "/org/gnome/nautilus/preferences/show-create-link", value: "true", state: "present" }
-    #        - { key: "/org/gnome/nautilus/preferences/show-delete-permanently", value: "true", state: "present" }
-    #        - { key: "/org/gnome/nautilus/preferences/show-directory-item-counts", value: "'always'", state: "present" }
-    #        - { key: "/org/gnome/nautilus/preferences/show-image-thumbnails", value: "'always'", state: "present" }
-    #        - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
-    #        - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
-    #        - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type", value: "'nothing'", state: "present" }
-    #        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'org.gnome.Terminal.desktop', 'gvim.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
-    #        - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
-    #        - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
+    - name: Set timezone
+      community.general.timezone:
+        name: Europe/London
+    
+    - name: Set hostname
+      hostname:
+        name: thinkpad
+    
+    - name: Update repositories and packages
+      dnf:
+        name: "*"
+        state: latest
+        update_cache: yes
+    
+    - name: Install RPM Fusion
+      dnf:
+        name: "{{ item.name }}"
+        state: present
+        disable_gpg_check: yes
+      with_items:
+        - { name: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-35.noarch.rpm" }
+        - { name: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-35.noarch.rpm" }
+
+    - name: Configure dnf
+      blockinfile:
+        path: /etc/dnf/dnf.conf
+        block: |
+          fastestmirror=true
+          max_parallel_downloads=20
+      become: true
+
+    - name: Install packages
+      dnf:
+        state: latest
+        name: 
+          - android-tools
+          - bat
+          - chromium
+          - cifs-utils
+          - copyq
+          - cronie
+          - curl
+          - dconf-editor
+          - dnsutils
+          - dos2unix
+          - fd-find
+          - flameshot
+          - fzf
+          - gcc
+          - git
+          - gnome-extensions-app
+          - gnome-shell-extension-user-theme
+          - gnome-tweaks
+          - ipcalc
+          - jq
+          - keepassxc
+          - libxdo
+          - lm_sensors
+          - net-tools
+          - nmap
+          - openssl
+          - p7zip
+          - p7zip-plugins
+          - papirus-icon-theme
+          - pandoc
+          - python3-devel
+          - python3-pip
+          - remmina
+          - tftp
+          - thunderbird
+          - tmux
+          - tree
+          - vim
+          - vim-X11
+          - vim-common
+          - wget
+          - xclip
+
+    - name: Install Package Groups
+      dnf:
+        name: "@Multimedia"
+        state: present
+
+    - name: Add the flathub flatpak repository remote to the user installation
+      flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    
+    - name: Install FlatHub packages
+      flatpak:
+        name: "{{ item.name }}"
+        state: present
+      with_items:
+        - { name:  org.telegram.desktop }
+        - { name:  com.jgraph.drawio.desktop }
+
+    - name: Install Python Packages
+      pip:
+        name:
+          - black
+          - psutil
+          - pylint
+        extra_args: --user
+      become: true
+      become_user: "{{ personal_username }}"
+    
+    - name: Make vim-plug directory
+      file:
+        path: "/home/{{ personal_username }}/.vim/autoload"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        recurse: yes      
+    
+    - name: Download Vim Plug
+      get_url:
+        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        dest: "/home/{{ personal_username }}/.vim/autoload/plug.vim"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+    
+    - name: Remove default folders
+      file:
+        path: "/home/{{ personal_username }}/{{ item.path }}"
+        state: absent
+      with_items:
+        - { path: Desktop }
+        - { path: Documents }
+        - { path: Music }
+        - { path: Pictures }
+        - { path: Public }
+        - { path: Templates }
+        - { path: Videos }
+    
+    - name: Create folders
+      file:
+        path: "/home/{{ personal_username }}/{{ item.path }}"
+        state: directory
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        recurse: yes
+      with_items:
+        - { path: .ssh }
+        - { path: .themes/custom/gnome-shell }
+        - { path: .config/espanso }
+
+    - name: Add regular Unison file syncs
+      ansible.builtin.cron:
+        name: "Unison Sync"
+        minute: "*/5"
+        hour: "*"
+        weekday: "*"
+        job: /usr/bin/bash /home/{{ personal_username }}/my/files/code/bash-scripts/unison_my_sync.sh
+      become: yes
+      become_user: "{{ personal_username }}"
+
+    - name: Download fonts and additional packages
+      unarchive:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        remote_src: yes
+      with_items:
+        - { src: https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip, dest: /tmp }
+        - { src: https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip, dest: /tmp }
+        - { src: https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip, dest: /tmp }
+        - { src: https://github.com/federico-terzi/espanso/releases/latest/download/espanso-linux.tar.gz, dest: /tmp }
+    
+    - name: Copy files
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      with_items:
+        # Inconsolata:
+        - { src: /tmp/fonts/ttf/, dest: /usr/local/share/fonts/ }
+        # Inter:
+        - { src: /tmp/Inter Variable/Inter.ttf, dest: /usr/local/share/fonts/ }
+        # Ubuntu Mono:
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-BI.ttf, dest: /usr/local/share/fonts/ }
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-B.ttf, dest: /usr/local/share/fonts/ }
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-RI.ttf, dest: /usr/local/share/fonts/ }
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-R.ttf, dest: /usr/local/share/fonts/ }
+        # Espanso:
+        - { src: /tmp/espanso, dest: /usr/local/bin/espanso }
+    
+    - name: Make espanso executable
+      ansible.builtin.file:
+        path: /usr/local/bin/espanso
+        mode: 0755
+    
+    - name: Install fonts
+      command: fc-cache /usr/local/share/fonts/
+    
+    - name: Remove existing dotfiles
+      file:
+        path: "/home/{{ personal_username }}/.bashrc"
+        state: absent
+    
+    - name: Add dotfiles and other config files
+      file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        state: link
+      with_items:
+        - { src: "~/my/files/code/dotfiles/bashrc", dest: "/home/{{ personal_username }}/.bashrc" }
+        - { src: "~/my/files/code/dotfiles/vimrc", dest: "/home/{{ personal_username }}/.vimrc" }
+        - { src: "~/my/files/code/dotfiles/tmux.conf", dest: "/home/{{ personal_username }}/.tmux.conf" }
+        - { src: "~/my/files/code/espanso/user", dest: "/home/{{ personal_username }}/.config/espanso/user" }
+      become_user: "{{ personal_username }}"
+      become: false
+
+    - name: Get Firefox default release profile name
+      find:
+        paths: "/home/{{ personal_username }}/.mozilla/firefox/"
+        file_type: directory
+        patterns: '*.default-release'
+      register: firefox_profile
+
+    - name: Custom Firefox about:config settings
+      copy:
+        dest: "{{ firefox_profile | json_query('files[*].path | [0]') | replace ('\"', '') }}/user.js"
+        mode: 0644
+        content: |
+          user_pref("browser.aboutHomeSnippets.updateUrl", "");
+          user_pref("browser.compactmode.show", true);
+          user_pref("browser.discovery.enabled", false);
+          user_pref("browser.download.useDownloadDir", false);
+          user_pref("browser.fixup.alternate.enabled", false);
+          user_pref("browser.formfill.enable", false);
+          user_pref("browser.formfill.expire_days",	0);
+          user_pref("browser.helperApps.deleteTempFileOnExit", true);
+          user_pref("browser.newtab.preload", false);
+          user_pref("browser.newtab.url", "about:blank");
+          user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr", false);
+          user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
+          user_pref("browser.newtabpage.activity-stream.enabled", false);
+          user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
+          user_pref("browser.newtabpage.activity-stream.feeds.snippets", false);
+          user_pref("browser.newtabpage.directory.ping", "");
+          user_pref("browser.newtabpage.directory.source", "data:text/plain,{}");
+          user_pref("browser.newtabpage.enabled", false);
+          user_pref("browser.newtabpage.enhanced", false);
+          user_pref("browser.pocket.enabled", false);
+          user_pref("browser.search.suggest.enabled", false);
+          user_pref("browser.search.context.loadInBackground", true);
+          user_pref("browser.search.update", false);
+          user_pref("browser.startup.homepage", "{{ firefox_start_page }}");
+          user_pref("browser.tabs.loadBookmarksInBackground", true);
+          user_pref("browser.tabs.loadBookmarksInTabs", true);
+          user_pref("browser.uidensity", 1);
+          user_pref("browser.uitour.enabled", false);
+          user_pref("browser.uitour.enabled", false);
+          user_pref("browser.urlbar.trimURLs", false);
+          user_pref("clipboard.autocopy", false);
+          user_pref("datareporting.healthreport.service.enabled", false);
+          user_pref("datareporting.healthreport.uploadEnabled", false);
+          user_pref("datareporting.policy.dataSubmissionEnabled", false);
+          user_pref("datareporting.policy.dataSubmissionEnabled", false);
+          user_pref("dom.event.clipboardevents.enabled", false);
+          user_pref("dom.event.contextmenu.enabled", true);
+          user_pref("experiments.enabled", false);
+          user_pref("experiments.manifest.uri", "");
+          user_pref("experiments.supported", false);
+          user_pref("extensions.pocket.enabled", false);
+          user_pref("layout.word_select.eat_space_to_next_word", false);
+          user_pref("mousewheel.min_line_scroll_amount", 25);
+          user_pref("network.allow-experiments", false);
+          user_pref("privacy.trackingprotection.enabled", true);
+          user_pref("privacy.trackingprotection.pbmode.enabled", true);
+          user_pref("signon.rememberSignons", false);
+          user_pref("toolkit.telemetry.archive.enabled", false);
+          user_pref("toolkit.telemetry.enabled", false);
+          user_pref("toolkit.telemetry.unified", false);
+
+    - name: Create custom Gnome Shell theme
+      copy:
+        dest: "/home/{{ personal_username }}/.themes/custom/gnome-shell/gnome-shell.css"
+        mode: 0644
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        content: |
+          @import url("resource:///org/gnome/theme/gnome-shell.css");
+
+          stage {
+              font-family: Inter;
+              font-size: 13px;
+          }
+
+    - name: Nautilus Bookmarks
+      copy:
+        dest: "/home/{{ personal_username }}/.config/gtk-3.0/bookmarks"
+        mode: 0644
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        content: |
+          file:///home/{{ personal_username }}/my
+          file:///home/{{ personal_username }}/Downloads
+    
+    - name: Gnome terminal padding
+      copy:
+        dest: "/home/{{ personal_username }}/.config/gtk-3.0/gtk.css"
+        mode: 0644
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        content: |
+          VteTerminal,
+          TerminalScreen,
+          vte-terminal {
+              padding: 10px;
+              -VteTerminal-inner-border: 10px;
+          }
+
+    - name: Set Gnome dconf preferences
+      community.general.dconf:
+        key: "{{ item.key }}"
+        value: "{{ item.value }}"
+        state: "{{ item.state }}"
+      become_user: "{{ personal_username }}"
+      with_items:
+        - { key: "/org/gnome/desktop/interface/clock-format", value: "'24h'", state: "present" }
+        - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/interface/font-name", value: "'Inter Regular 10'", state: "present" }
+        - { key: "/org/gnome/desktop/interface/icon-theme", value: "'Papirus'", state: "present" }
+        - { key: "/org/gnome/desktop/interface/locate-pointer", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Ubuntu Mono Regular 13'", state: "present" }
+        - { key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/screensaver/idle-activation-enabled", value: "false", state: "present" }
+        - { key: "/org/gnome/desktop/session/idle-delay", value: "uint32 0", state: "present" }
+        - { key: "/org/gnome/desktop/thumbnail-cache/touchpad/natural-scroll", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/wm/keybindings/move-to-center", value: "['<Control><Super>c']", state: "present" }
+        - { key: "/org/gnome/desktop/wm/keybindings/show-desktop", value: "['<Super>d']", state: "present" }
+        - { key: "/org/gnome/desktop/wm/preferences/button-layout", value: "'close:appmenu'", state: "present" }
+        - { key: "/org/gnome/desktop/wm/preferences/titlebar-font", value: "'Inter Regular 10'", state: "present" }
+        - { key: "/org/gnome/mutter/attach-modal-dialogs", value: "false", state: "present" }
+        - { key: "/org/gnome/mutter/center-new-windows", value: "true", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/always-use-location-entry", value: "true", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/default-folder-viewer", value: "'list-view'", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/recursive-search", value: "'always'", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/show-create-link", value: "true", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/show-delete-permanently", value: "true", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/show-directory-item-counts", value: "'always'", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/show-image-thumbnails", value: "'always'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type", value: "'nothing'", state: "present" }
+        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'org.gnome.Terminal.desktop', 'gvim.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
+        - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
+        - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
 
     - name: Configure Git user and email
       community.general.git_config:
