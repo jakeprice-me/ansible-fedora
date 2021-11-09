@@ -386,3 +386,11 @@
       become: yes
       become_user: "{{ personal_username }}"
 
+    - name: Enable & start services
+      ansible.builtin.systemd:
+        name: "{{ item.name }}"
+        enabled: yes
+        state: started
+      with_items:
+        - { name: crond }
+
