@@ -70,6 +70,7 @@
           - keepassxc
           - libxdo
           - lm_sensors
+          - mailx
           - net-tools
           - nmap
           - openssl
