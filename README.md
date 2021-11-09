@@ -1,6 +1,6 @@
 # Ansible Playbook to Configure Fedora 34 on ThinkPad
 
-This playbook configures my ThinkPad T480, following a fresh installation of Fedora.
+This playbook configures my ThinkPad T480, following a fresh installation of my goto distro, Fedora.
 
 ## Install Ansible
 
@@ -18,39 +18,15 @@ Clone the repository into `~/Downloads`.
 git clone https://git.jpr.sh/jprice/ansible-thinkpad-fedora.git ~/Downloads/ansible-thinkpad-fedora
 ```
 
-## Ansible Vault
+## Ansible Variables
 
-To save specifying the password when you create or edit the vault, or, run the playbook, `ansible.cfg` contains the path to `.vault_password`.
+Create a `vars.yml` file in the repository folder, and provide values for the below variables.
 
-```ini
-[defaults]
-vault_password_file = .vault_password
-```
-
-`vault.yml` must contain the below variables and their values.
-
-```yml
-vault_samba_username: <username>
-vault_samba_password: <password>
-```
-
-The values can be retrieved from the `vault.kdbx` KeePass database.
-
-Create the `ansible-vault` file, and the corresponding `.vault_password` file.
-
-```sh
-# Change to repository directory:
-cd ~/Downloads/ansible-thinkpad-fedora
-
-# Create .vault_password:
-echo $(tr --complement --delete '[:alnum:]' < /dev/urandom | fold --width=64 | head --lines=1) > .vault_password
-
-# Create vault:
-ansible-vault create vault.yml
-
-# Enter the username and password values:
-vault_samba_username: <username>
-vault_samba_password: <password>
+```yaml
+firefox_start_page: <value>
+git_config_user_email: <value>
+git_config_user_name: <value>
+personal_username: <value>
 ```
 
 ## Ansible Collections
@@ -69,3 +45,4 @@ Run the playbook to configure the new installation of Fedora, and input your `su
 # Run Playbook:
 ansible-playbook --ask-become-pass playbook.yml
 ```
+
