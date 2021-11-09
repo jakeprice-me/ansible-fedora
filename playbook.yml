@@ -180,12 +180,18 @@
         - { src: https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip, dest: /tmp }
         - { src: https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip, dest: /tmp }
         - { src: https://github.com/federico-terzi/espanso/releases/latest/download/espanso-linux.tar.gz, dest: /tmp }
-    
+        - { src: https://github.com/gohugoio/hugo/releases/download/v0.89.2/hugo_0.89.2_Linux-64bit.tar.gz, dest: /tmp }
+        - { src: https://github.com/bcpierce00/unison/releases/download/v2.51.4/unison-v2.51.4+ocaml-4.12.0+x86_64.linux.tar.gz, dest: /tmp }
+
     - name: Copy files
       copy:
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
       with_items:
+        # Espanso:
+        - { src: /tmp/espanso, dest: /usr/local/bin/espanso }
+        # Hugo
+        - { src: /tmp/hugo, dest: /usr/local/bin/hugo }
         # Inconsolata:
         - { src: /tmp/fonts/ttf/, dest: /usr/local/share/fonts/ }
         # Inter:
@@ -195,13 +201,16 @@
         - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-B.ttf, dest: /usr/local/share/fonts/ }
         - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-RI.ttf, dest: /usr/local/share/fonts/ }
         - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-R.ttf, dest: /usr/local/share/fonts/ }
-        # Espanso:
-        - { src: /tmp/espanso, dest: /usr/local/bin/espanso }
+        # Unison
+        - { src: /tmp/bin/unison, dest: /usr/local/bin/unison }
     
     - name: Make espanso executable
       ansible.builtin.file:
-        path: /usr/local/bin/espanso
-        mode: 0755
+        path: "{{ item.path }}"
+        mode: "{{ item.mode }}"
+      with_items:
+        - { path: /usr/local/bin/espanso, mode: "0755" }
+        - { path: /usr/local/bin/hugo, mode: "0755" }
     
     - name: Install fonts
       command: fc-cache /usr/local/share/fonts/
