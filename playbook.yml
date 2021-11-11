@@ -221,7 +221,14 @@
       file:
         path: "/home/{{ personal_username }}/.bashrc"
         state: absent
-    
+
+    - name: Create .code_root
+      copy:
+        dest: ~/.code_root
+        mode: 0644
+        content: |
+          CODE_ROOT=$HOME/my/files/code
+
     - name: Add dotfiles and other config files
       file:
         src: "{{ item.src }}"
@@ -390,6 +397,9 @@
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///usr/share/backgrounds/gnome/adwaita-timed.xml'", state: "present" }
         - { key: "/org/gnome/desktop/background/picture-options", value: "'stretched'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name", value: "'Show CopyQ Window'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command", value: "'copyq show'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding", value: "'<Alt><Shift>C'", state: "present" }
 
     - name: Configure Git user and email
       community.general.git_config:
