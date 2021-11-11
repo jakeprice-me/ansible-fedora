@@ -263,11 +263,12 @@
         patterns: '*.default-release'
       register: firefox_profile
 
-    - name: Custom Firefox about:config settings
+    - name: Custom Firefox settings
       copy:
         dest: "{{ firefox_profile | json_query('files[*].path | [0]') | replace ('\"', '') }}/user.js"
         mode: 0644
         content: |
+          user_pref("browser.aboutConfig.showWarning", false);
           user_pref("browser.aboutHomeSnippets.updateUrl", "");
           user_pref("browser.compactmode.show", true);
           user_pref("browser.discovery.enabled", false);
@@ -288,8 +289,8 @@
           user_pref("browser.newtabpage.enabled", false);
           user_pref("browser.newtabpage.enhanced", false);
           user_pref("browser.pocket.enabled", false);
-          user_pref("browser.search.suggest.enabled", false);
           user_pref("browser.search.context.loadInBackground", true);
+          user_pref("browser.search.suggest.enabled", false);
           user_pref("browser.search.update", false);
           user_pref("browser.startup.homepage", "{{ firefox_start_page }}");
           user_pref("browser.tabs.loadBookmarksInBackground", true);
@@ -298,6 +299,7 @@
           user_pref("browser.uitour.enabled", false);
           user_pref("browser.uitour.enabled", false);
           user_pref("browser.urlbar.trimURLs", false);
+          user_pref("browser.warnOnQuitShortcut", false);
           user_pref("clipboard.autocopy", false);
           user_pref("datareporting.healthreport.service.enabled", false);
           user_pref("datareporting.healthreport.uploadEnabled", false);
@@ -364,6 +366,8 @@
         state: "{{ item.state }}"
       become_user: "{{ personal_username }}"
       with_items:
+        - { key: "/org/gnome/desktop/background/picture-options", value: "'stretched'", state: "present" }
+        - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///usr/share/backgrounds/gnome/adwaita-timed.xml'", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-format", value: "'24h'", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
@@ -389,17 +393,16 @@
         - { key: "/org/gnome/nautilus/preferences/show-delete-permanently", value: "true", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/show-directory-item-counts", value: "'always'", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/show-image-thumbnails", value: "'always'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings", value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding", value: "'<Alt><Shift>C'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command", value: "'copyq show'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name", value: "'Show CopyQ Window'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type", value: "'nothing'", state: "present" }
         - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'org.gnome.Terminal.desktop', 'gvim.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
-        - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///usr/share/backgrounds/gnome/adwaita-timed.xml'", state: "present" }
-        - { key: "/org/gnome/desktop/background/picture-options", value: "'stretched'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name", value: "'Show CopyQ Window'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command", value: "'copyq show'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding", value: "'<Alt><Shift>C'", state: "present" }
 
     - name: Configure Git user and email
       community.general.git_config:
