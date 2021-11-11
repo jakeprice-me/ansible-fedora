@@ -205,13 +205,14 @@
         # Unison
         - { src: /tmp/bin/unison, dest: /usr/local/bin/unison }
     
-    - name: Make espanso executable
+    - name: Make downloaded binaries executable
       ansible.builtin.file:
         path: "{{ item.path }}"
         mode: "{{ item.mode }}"
       with_items:
         - { path: /usr/local/bin/espanso, mode: "0755" }
         - { path: /usr/local/bin/hugo, mode: "0755" }
+        - { path: /usr/local/bin/unison, mode: "0755" }
     
     - name: Install fonts
       command: fc-cache /usr/local/share/fonts/
@@ -375,6 +376,8 @@
         - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'org.gnome.Terminal.desktop', 'gvim.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///usr/share/backgrounds/gnome/adwaita-timed.xml'", state: "present" }
+        - { key: "/org/gnome/desktop/background/picture-options", value: "'stretched'", state: "present" }
 
     - name: Configure Git user and email
       community.general.git_config:
