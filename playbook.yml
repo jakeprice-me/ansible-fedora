@@ -236,6 +236,18 @@
         - { src: "~/my/files/code/espanso/user", dest: "/home/{{ personal_username }}/.config/espanso/user" }
       become_user: "{{ personal_username }}"
       become: false
+    
+    - name: Symlink SSH directory
+      file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        state: link
+      with_items:
+        - { src: "$HOME/my/files/documents/vault/ssh", dest: "/home/{{ personal_username }}/.ssh" }
+      become_user: "{{ personal_username }}"
+      become: false
 
     - name: Get Firefox default release profile name
       find:
