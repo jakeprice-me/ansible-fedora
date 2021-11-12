@@ -1,6 +1,6 @@
-# Ansible Playbook to Configure Fedora 34 on ThinkPad
+# Ansible Playbook for Fedora 35
 
-This playbook configures my ThinkPad T480, following a fresh installation of my goto distro, Fedora.
+This playbook configures my personal laptop following a fresh installation of my go-to distro, Fedora.
 
 ## Install Ansible
 
@@ -15,7 +15,7 @@ sudo dnf install ansible --assumeyes
 Clone the repository into `~/Downloads`.
 
 ```sh
-git clone https://git.jpr.sh/jprice/ansible-thinkpad-fedora.git ~/Downloads/ansible-thinkpad-fedora
+git clone https://git.jpr.sh/jprice/ansible-laptop-fedora.git ~/Downloads/ansible-laptop-fedora
 ```
 
 ## Ansible Variables
@@ -27,6 +27,7 @@ firefox_start_page: <value>
 git_config_user_email: <value>
 git_config_user_name: <value>
 personal_username: <value>
+hostname: <value>
 ```
 
 ## Ansible Collections
