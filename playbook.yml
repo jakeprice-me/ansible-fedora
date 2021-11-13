@@ -18,7 +18,7 @@
     
     - name: Set hostname
       hostname:
-        name: thinkpad
+        name: "{{ hostname }}"
     
     - name: Update repositories and packages
       dnf:
@@ -165,7 +165,7 @@
         minute: "*/5"
         hour: "*"
         weekday: "*"
-        job: /usr/bin/bash /home/{{ personal_username }}/my/files/code/bash-scripts/unison_my_sync.sh
+        job: /usr/bin/bash /home/{{ personal_username }}/my/files/code/bash-scripts/unison_my_sync.sh && curl --fail --silent --show-error --retry 5 --output /dev/null {{ healthcheck_unison }}
       become: yes
       become_user: "{{ personal_username }}"
 
