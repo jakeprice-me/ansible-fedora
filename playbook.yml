@@ -412,6 +412,7 @@
       with_items:
         - { name: user.name, value: "{{ git_config_user_name }}" }
         - { name: user.email, value: "{{ git_config_user_email }}" }
+        - { name: init.defaultBranch, value: master }
       become: yes
       become_user: "{{ personal_username }}"
 
