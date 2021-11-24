@@ -67,6 +67,7 @@
           - gnome-tweaks
           - ipcalc
           - jq
+          - kitty
           - keepassxc
           - libxdo
           - lm_sensors
@@ -81,6 +82,7 @@
           - python3-devel
           - python3-pip
           - remmina
+          - ruby
           - tftp
           - thunderbird
           - tmux
@@ -205,15 +207,6 @@
         # Unison
         - { src: /tmp/bin/unison, dest: /usr/local/bin/unison }
     
-    - name: Make downloaded binaries executable
-      ansible.builtin.file:
-        path: "{{ item.path }}"
-        mode: "{{ item.mode }}"
-      with_items:
-        - { path: /usr/local/bin/espanso, mode: "0755" }
-        - { path: /usr/local/bin/hugo, mode: "0755" }
-        - { path: /usr/local/bin/unison, mode: "0755" }
-    
     - name: Install fonts
       command: fc-cache /usr/local/share/fonts/
     
@@ -255,6 +248,63 @@
         - { src: "$HOME/my/files/documents/vault/ssh", dest: "/home/{{ personal_username }}/.ssh" }
       become_user: "{{ personal_username }}"
       become: false
+
+    - name: Setup GuiVim URI Handler
+      copy:
+        dest: /usr/share/applications/guivim.desktop
+        content: |
+          [Desktop Entry]
+          Encoding=UTF-8
+          Name=Vim (GUI)
+          Comment=Edit text files in a console using Vim
+          Exec=/usr/local/bin/guivim %U
+          Terminal=false
+          Type=Application
+          Icon=/usr/src/vim/runtime/vim48x48.xpm
+          Categories=Application;Utility;TextEditor;
+          MimeType=text/plain;x-scheme-handler/guivim;
+          StartupNotify=true
+          StartupWMClass=GUIVIM
+
+    - name: URI Handler Script
+      copy:
+        dest: /usr/local/bin/guivim
+        content: |
+          #! /usr/bin/env ruby
+
+          require 'uri'
+          require 'cgi'
+
+          full_path = ARGV[0]
+
+          if full_path
+            uri = URI::parse(full_path)
+
+            vim_params = %Q["#{uri.path}"]
+
+            if uri.query
+              params = CGI::parse(uri.query)
+              line = params["line"][0]
+            end
+
+            vim_params << " +#{line}" if line
+          end
+
+          `gnome-terminal -x gvim #{vim_params}`
+
+    - name: Make binaries executable
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        mode: "{{ item.mode }}"
+      with_items:
+        - { path: /usr/local/bin/espanso, mode: "0755" }
+        - { path: /usr/local/bin/hugo, mode: "0755" }
+        - { path: /usr/local/bin/unison, mode: "0755" }
+        - { path: /usr/local/bin/guivim, mode: "0755" }
+
+    - name: Update desktop database to pick up GuiVim URI
+      command: update-desktop-database
+      become: yes
 
     - name: Get Firefox default release profile name
       find:
