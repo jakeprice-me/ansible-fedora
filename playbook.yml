@@ -290,7 +290,9 @@
             vim_params << " +#{line}" if line
           end
 
-          `gnome-terminal -x gvim #{vim_params}`
+          # --remote-silent opens a session, and then opens futher files
+          # in that session:
+          `gvim --remote-silent #{vim_params}`
 
     - name: Make binaries executable
       ansible.builtin.file:
