@@ -425,8 +425,8 @@
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/font-name", value: "'Inter Regular 10'", state: "present" }
         - { key: "/org/gnome/desktop/interface/icon-theme", value: "'Papirus'", state: "present" }
-        - { key: "/org/gnome/desktop/interface/locate-pointer", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Ubuntu Mono Regular 13'", state: "present" }
+        - { key: "/org/gnome/desktop/interface/gtk-key-theme", value: "'Emacs'", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/screensaver/idle-activation-enabled", value: "false", state: "present" }
@@ -455,6 +455,7 @@
         - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'org.gnome.Terminal.desktop', 'gvim.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
+
 
     - name: Configure Git user and email
       community.general.git_config:
