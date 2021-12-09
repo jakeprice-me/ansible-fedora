@@ -26,9 +26,9 @@ Create a `vars.yml` file in the repository folder, and provide values for the be
 firefox_start_page: <value>
 git_config_user_email: <value>
 git_config_user_name: <value>
-personal_username: <value>
-hostname: <value>
 healthcheck_unison: <value>
+hostname: <value>
+personal_username: <value>
 ```
 
 ## Ansible Collections
