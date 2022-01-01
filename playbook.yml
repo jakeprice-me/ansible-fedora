@@ -62,8 +62,6 @@
           - fzf
           - gcc
           - git
-          - git-instaweb
-          - gitweb
           - gnome-extensions-app
           - gnome-shell-extension-user-theme
           - gnome-tweaks
@@ -237,6 +235,7 @@
         - { src: "~/my/files/code/dotfiles/bashrc", dest: "/home/{{ personal_username }}/.bashrc" }
         - { src: "~/my/files/code/dotfiles/vimrc", dest: "/home/{{ personal_username }}/.vimrc" }
         - { src: "~/my/files/code/dotfiles/tmux.conf", dest: "/home/{{ personal_username }}/.tmux.conf" }
+        - { src: "~/my/files/code/misc-config/kitty", dest: "/home/{{ personal_username }}/.config/kitty" }
         - { src: "~/my/files/code/espanso-config/user", dest: "/home/{{ personal_username }}/.config/espanso/user" }
       become_user: "{{ personal_username }}"
       become: false
