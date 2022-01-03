@@ -65,6 +65,7 @@
           - gnome-extensions-app
           - gnome-shell-extension-user-theme
           - gnome-tweaks
+          - hledger
           - ipcalc
           - jq
           - kitty
