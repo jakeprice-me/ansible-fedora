@@ -185,7 +185,7 @@
         - { src: https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip, dest: /tmp }
         - { src: https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip, dest: /tmp }
         - { src: https://github.com/federico-terzi/espanso/releases/latest/download/espanso-linux.tar.gz, dest: /tmp }
-        - { src: https://github.com/gohugoio/hugo/releases/download/v0.89.2/hugo_0.89.2_Linux-64bit.tar.gz, dest: /tmp }
+        - { src: https://github.com/gohugoio/hugo/releases/download/v0.91.2/hugo_0.91.2_Linux-64bit.tar.gz, dest: /tmp }
         - { src: https://github.com/bcpierce00/unison/releases/download/v2.51.4/unison-v2.51.4+ocaml-4.12.0+x86_64.linux.tar.gz, dest: /tmp }
 
     - name: Copy files
@@ -455,7 +455,7 @@
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type", value: "'nothing'", state: "present" }
-        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'org.gnome.Terminal.desktop', 'gvim.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
+        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'kitty.desktop', 'gvim.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
 
