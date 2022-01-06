@@ -65,6 +65,7 @@
           - gnome-extensions-app
           - gnome-shell-extension-user-theme
           - gnome-tweaks
+          - graphviz
           - hledger
           - ipcalc
           - jq
@@ -438,7 +439,7 @@
         - { key: "/org/gnome/desktop/thumbnail-cache/touchpad/natural-scroll", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/wm/keybindings/move-to-center", value: "['<Control><Super>c']", state: "present" }
         - { key: "/org/gnome/desktop/wm/keybindings/show-desktop", value: "['<Super>d']", state: "present" }
-        - { key: "/org/gnome/desktop/wm/preferences/button-layout", value: "'close:appmenu'", state: "present" }
+        - { key: "/org/gnome/desktop/wm/preferences/button-layout", value: "'appmenu:close'", state: "present" }
         - { key: "/org/gnome/desktop/wm/preferences/titlebar-font", value: "'Inter Regular 10'", state: "present" }
         - { key: "/org/gnome/mutter/attach-modal-dialogs", value: "false", state: "present" }
         - { key: "/org/gnome/mutter/center-new-windows", value: "true", state: "present" }
