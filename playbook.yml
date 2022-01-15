@@ -241,6 +241,7 @@
         - { src: "~/my/files/code/dotfiles/tmux.conf", dest: "/home/{{ personal_username }}/.tmux.conf" }
         - { src: "~/my/files/code/misc-config/alacritty", dest: "/home/{{ personal_username }}/.config/alacritty" }
         - { src: "~/my/files/code/misc-config/vim/colors", dest: "/home/{{ personal_username }}/.vim/colors" }
+        - { src: "~/my/files/code/misc-config/unison/default.prf", dest: "/home/{{ personal_username }}/.unison/default.prf" }
         - { src: "~/my/files/code/espanso-config/user", dest: "/home/{{ personal_username }}/.config/espanso/user" }
       become_user: "{{ personal_username }}"
       become: false
