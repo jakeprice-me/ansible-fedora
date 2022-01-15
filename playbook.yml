@@ -68,6 +68,7 @@
           - gnome-tweaks
           - graphviz
           - hledger
+          - hledger-web
           - ipcalc
           - jq
           - keepassxc
