@@ -1,6 +1,6 @@
 # Ansible Playbook for Fedora 35
 
-This playbook configures my personal laptop following a fresh installation of my go-to distro, Fedora.
+This playbook configures my personal devices following a fresh installation of my go-to distro, Fedora.
 
 ## Install Ansible
 
@@ -15,7 +15,7 @@ sudo dnf install ansible --assumeyes
 Clone the repository into `~/Downloads`.
 
 ```sh
-git clone https://git.jpr.sh/jprice/ansible-laptop-fedora.git ~/Downloads/ansible-laptop-fedora
+git clone https://github.com/jakeprice-dev/ansible-fedora ~/Downloads/ansible-fedora
 ```
 
 ## Ansible Variables
@@ -27,7 +27,6 @@ firefox_start_page: <value>
 git_config_user_email: <value>
 git_config_user_name: <value>
 healthcheck_unison: <value>
-hostname: <value>
 personal_username: <value>
 ```
 
@@ -45,6 +44,6 @@ Run the playbook to configure the new installation of Fedora, and input your `su
 
 ```sh
 # Run Playbook:
-ansible-playbook --ask-become-pass playbook.yml
+ansible-playbook --ask-become-pass --extra-vars "hostname=<enter_hostname>" playbook.yml
 ```
 
