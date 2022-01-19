@@ -164,6 +164,7 @@
       with_items:
         - { path: .themes/custom/gnome-shell }
         - { path: .config/espanso }
+        - { path: .unison }
 
     - name: Add regular Unison file syncs
       ansible.builtin.cron:
