@@ -47,7 +47,6 @@
       dnf:
         state: latest
         name: 
-          - alacritty
           - android-tools
           - bat
           - chromium
@@ -72,6 +71,7 @@
           - ipcalc
           - jq
           - keepassxc
+          - kitty
           - libxdo
           - lm_sensors
           - mailx
@@ -240,7 +240,7 @@
         - { src: "~/my/files/code/dotfiles/bashrc", dest: "/home/{{ personal_username }}/.bashrc" }
         - { src: "~/my/files/code/dotfiles/vimrc", dest: "/home/{{ personal_username }}/.vimrc" }
         - { src: "~/my/files/code/dotfiles/tmux.conf", dest: "/home/{{ personal_username }}/.tmux.conf" }
-        - { src: "~/my/files/code/misc-config/alacritty", dest: "/home/{{ personal_username }}/.config/alacritty" }
+        - { src: "~/my/files/code/misc-config/kitty", dest: "/home/{{ personal_username }}/.config/kitty" }
         - { src: "~/my/files/code/misc-config/vim/colors", dest: "/home/{{ personal_username }}/.vim/colors" }
         - { src: "~/my/files/code/misc-config/unison/default.prf", dest: "/home/{{ personal_username }}/.unison/default.prf" }
         - { src: "~/my/files/code/espanso-config/user", dest: "/home/{{ personal_username }}/.config/espanso/user" }
@@ -461,7 +461,7 @@
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type", value: "'nothing'", state: "present" }
-        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'Alacritty.desktop', 'gvim.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
+        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'kitty.desktop', 'gvim.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
 
