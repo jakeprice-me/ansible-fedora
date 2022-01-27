@@ -190,6 +190,7 @@
         - { src: https://github.com/federico-terzi/espanso/releases/latest/download/espanso-linux.tar.gz, dest: /tmp }
         - { src: https://github.com/gohugoio/hugo/releases/download/v0.91.2/hugo_0.91.2_Linux-64bit.tar.gz, dest: /tmp }
         - { src: https://github.com/bcpierce00/unison/releases/download/v2.51.4/unison-v2.51.4+ocaml-4.12.0+x86_64.linux.tar.gz, dest: /tmp }
+        - { src: https://github.com/charmbracelet/glow/releases/download/v1.4.1/glow_1.4.1_linux_x86_64.tar.gz, dest: /tmp }
 
     - name: Copy files
       copy:
@@ -198,6 +199,8 @@
       with_items:
         # Espanso:
         - { src: /tmp/espanso, dest: /usr/local/bin/espanso }
+        # Glow:
+        - { src: /tmp/glow, dest: /usr/local/bin/glow }
         # Hugo
         - { src: /tmp/hugo, dest: /usr/local/bin/hugo }
         # Inconsolata:
@@ -225,7 +228,16 @@
         dest: ~/.code_root
         mode: 0644
         content: |
-          export CODE_ROOT=$HOME/my/files/code
+          export CODE_ROOT={{ code_root }}
+      become: yes
+      become_user: "{{ personal_username }}"
+
+    - name: Create .docs_root
+      copy:
+        dest: ~/.docs_root
+        mode: 0644
+        content: |
+          export DOCS_ROOT={{ docs_root }}
       become: yes
       become_user: "{{ personal_username }}"
 
