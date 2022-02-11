@@ -43,6 +43,13 @@
           max_parallel_downloads=20
       become: true
 
+    - name: Add repositories
+      command: "{{ item.command }}"
+      with_items:
+        - { command: "dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo" }
+        - { command: "dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo" }
+      become: yes
+
     - name: Install packages
       dnf:
         state: latest
@@ -51,11 +58,14 @@
           - bat
           - chromium
           - cifs-utils
+          - containerd.io
           - copyq
           - cronie
           - curl
           - dconf-editor
           - dnsutils
+          - docker-ce
+          - docker-ce-cli
           - dos2unix
           - fd-find
           - flameshot
@@ -80,14 +90,15 @@
           - openssl
           - p7zip
           - p7zip-plugins
-          - papirus-icon-theme
           - pandoc
+          - papirus-icon-theme
           - python3-devel
           - python3-pip
           - qrencode
           - remmina
           - ruby
           - ShellCheck
+          - terraform
           - tftp
           - thunderbird
           - tmux
@@ -95,6 +106,7 @@
           - vim
           - vim-X11
           - vim-common
+          - vlc
           - wget
           - xclip
 
@@ -140,6 +152,14 @@
         dest: "/home/{{ personal_username }}/.vim/autoload/plug.vim"
         owner: "{{ personal_username }}"
         group: "{{ personal_username }}"
+
+    - name: Add user to groups
+      ansible.builtin.user:
+        name: "{{ personal_username }}"
+        groups:
+          - "{{ personal_username }}"
+          - wheel
+          - docker
     
     - name: Remove default folders
       file:
@@ -500,4 +520,5 @@
         state: started
       with_items:
         - { name: crond }
+        - { name: docker }
 
