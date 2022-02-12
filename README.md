@@ -23,6 +23,8 @@ git clone https://github.com/jakeprice-dev/ansible-fedora ~/Downloads/ansible-fe
 Create a `vars.yml` file in the repository folder, and provide values for the below variables.
 
 ```yaml
+code_root: <value>
+docs_root: <value>
 firefox_start_page: <value>
 git_config_user_email: <value>
 git_config_user_name: <value>
@@ -32,11 +34,23 @@ personal_username: <value>
 
 ## Ansible Collections
 
-Still within the repository directory, install the collections specified in `requirements.yml`.
+Whilst you are still within the repository directory, install the collections specified in `requirements.yml`.
 
 ```sh
 ansible-galaxy collection install -r requirements.yml
 ```
+
+## Directories
+
+The playbook depends on a few directories and files being in place already. 
+
+- `~/my/files/documents/vault`
+
+Then clone the following GitHub repositories into the directories below.
+
+- https://github.com/jakeprice-dev/dotfiles.git into `my/files/code/dotfiles`
+- https://github.com/jakeprice-dev/espanso-config.git into `my/files/code/espanso-config`
+- https://github.com/jakeprice-dev/misc-config.git into `my/files/code/misc-config`
 
 ## Run Playbook
 
