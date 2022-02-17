@@ -343,9 +343,10 @@
         mode: "{{ item.mode }}"
       with_items:
         - { path: /usr/local/bin/espanso, mode: "0755" }
+        - { path: /usr/local/bin/glow, mode: "0755" }
+        - { path: /usr/local/bin/guivim, mode: "0755" }
         - { path: /usr/local/bin/hugo, mode: "0755" }
         - { path: /usr/local/bin/unison, mode: "0755" }
-        - { path: /usr/local/bin/guivim, mode: "0755" }
 
     - name: Update desktop database to pick up GuiVim URI
       command: update-desktop-database
@@ -462,7 +463,7 @@
       become_user: "{{ personal_username }}"
       with_items:
         - { key: "/org/gnome/desktop/background/picture-options", value: "'stretched'", state: "present" }
-        - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///my/files/media/pictures/wallpaper/img19.jpg'", state: "present" }
+        - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///home/{{ personal_username }}/Wallpapers/img19.jpg'", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-format", value: "'24h'", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
@@ -476,7 +477,7 @@
         - { key: "/org/gnome/desktop/thumbnail-cache/touchpad/natural-scroll", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/wm/keybindings/move-to-center", value: "['<Control><Super>c']", state: "present" }
         - { key: "/org/gnome/desktop/wm/keybindings/show-desktop", value: "['<Super>d']", state: "present" }
-        - { key: "/org/gnome/desktop/wm/preferences/button-layout", value: "'appmenu:close'", state: "present" }
+        - { key: "/org/gnome/desktop/wm/preferences/button-layout", value: "'appmenu:minimize,maximize,close'", state: "present" }
         - { key: "/org/gnome/desktop/wm/preferences/titlebar-font", value: "'Inter Regular 10'", state: "present" }
         - { key: "/org/gnome/mutter/attach-modal-dialogs", value: "false", state: "present" }
         - { key: "/org/gnome/mutter/center-new-windows", value: "true", state: "present" }
