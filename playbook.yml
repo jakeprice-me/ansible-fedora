@@ -68,6 +68,7 @@
           - docker-ce-cli
           - dos2unix
           - fd-find
+          - ffmpeg
           - flameshot
           - fzf
           - gcc
