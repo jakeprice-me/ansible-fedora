@@ -79,6 +79,7 @@
           - graphviz
           - hledger
           - hledger-web
+          - ImageMagick
           - ipcalc
           - jq
           - keepassxc
