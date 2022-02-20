@@ -468,7 +468,6 @@
         - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///home/{{ personal_username }}/Wallpapers/img19.jpg'", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-format", value: "'24h'", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
-        - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/font-name", value: "'Inter Regular 10'", state: "present" }
         - { key: "/org/gnome/desktop/interface/icon-theme", value: "'Papirus'", state: "present" }
         - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Ubuntu Mono Regular 13'", state: "present" }
@@ -479,13 +478,12 @@
         - { key: "/org/gnome/desktop/thumbnail-cache/touchpad/natural-scroll", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/wm/keybindings/move-to-center", value: "['<Control><Super>c']", state: "present" }
         - { key: "/org/gnome/desktop/wm/keybindings/show-desktop", value: "['<Super>d']", state: "present" }
-        - { key: "/org/gnome/desktop/wm/keybindings/show-desktop", value: "['<Super>d']", state: "present" }
         - { key: "/org/gnome/desktop/wm/keybindings/switch-applications", value: "['<Alt>Tab']", state: "present" }
         - { key: "/org/gnome/desktop/wm/preferences/button-layout", value: "'appmenu:minimize,maximize,close'", state: "present" }
         - { key: "/org/gnome/desktop/wm/preferences/titlebar-font", value: "'Inter Regular 10'", state: "present" }
         - { key: "/org/gnome/mutter/attach-modal-dialogs", value: "false", state: "present" }
         - { key: "/org/gnome/mutter/center-new-windows", value: "true", state: "present" }
-        - { key: "/org/gnome/nautilus/preferences/always-use-location-entry", value: "true", state: "present" }
+        - { key: "/org/gnome/nautilus/preferences/always-use-location-entry", value: "false", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/default-folder-viewer", value: "'list-view'", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/recursive-search", value: "'always'", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/show-create-link", value: "true", state: "present" }
@@ -501,7 +499,7 @@
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type", value: "'nothing'", state: "present" }
         - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'kitty.desktop', 'gvim.desktop', 'org.keepassxc.KeePassXC.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
-        - { key: "/org/gnome/shell/keybindings/toggle-overview", value: "'<Super>Tab'", state: "present" }
+        - { key: "/org/gnome/shell/keybindings/toggle-overview", value: "['<Super>Tab']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
 
