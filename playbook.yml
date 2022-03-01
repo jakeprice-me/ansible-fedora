@@ -66,6 +66,7 @@
           - dnsutils
           - docker-ce
           - docker-ce-cli
+          - docker-compose
           - dos2unix
           - fd-find
           - ffmpeg
