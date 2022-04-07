@@ -78,6 +78,11 @@
           - gnome-shell-extension-user-theme
           - gnome-tweaks
           - graphviz
+          - libsane-hpaio
+          - hplip
+          - hplip-common
+          - hplip-gui
+          - hplip-libs
           - hledger
           - hledger-web
           - ImageMagick
