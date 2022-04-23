@@ -326,10 +326,9 @@
         - { src: "~/my/files/code/dotfiles/bashrc", dest: "/home/{{ personal_username }}/.bashrc" }
         - { src: "~/my/files/code/dotfiles/vimrc", dest: "/home/{{ personal_username }}/.vimrc" }
         - { src: "~/my/files/code/dotfiles/tmux.conf", dest: "/home/{{ personal_username }}/.tmux.conf" }
-          #        - { src: "~/my/files/code/misc-config/kitty", dest: "/home/{{ personal_username }}/.config/kitty" }
         - { src: "~/my/files/code/misc-config/vim/colors", dest: "/home/{{ personal_username }}/.vim/colors" }
         - { src: "~/my/files/code/misc-config/unison/default.prf", dest: "/home/{{ personal_username }}/.unison/default.prf" }
-        - { src: "~/my/files/code/espanso-config/user", dest: "/home/{{ personal_username }}/.config/espanso/user" }
+        - { src: "~/my/files/code/espanso-config", dest: "/home/{{ personal_username }}/.config/espanso" }
       become_user: "{{ personal_username }}"
       become: false
     
@@ -400,9 +399,17 @@
         - { path: /usr/local/bin/guivim, mode: "0755" }
         - { path: /usr/local/bin/unison, mode: "0755" }
 
+    - name: Get Firefox default release profile name
+      command: which espanso
+      failed_when: false
+      changed_when: false
+      check_mode: false
+      register: espanso_exists
+
     - name: Create the espanso command alias
       command: "/home/{{ personal_username }}/opt/Espanso-X11.AppImage env-path register"
       become: true
+      when: espanso_exists.rc == 1
 
     - name: Update desktop database to pick up GuiVim URI
       command: update-desktop-database
