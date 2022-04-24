@@ -164,8 +164,10 @@
       pip:
         name:
           - black
+          - pipreqs
           - psutil
           - pylint
+          - requests
         extra_args: --user
       become: true
       become_user: "{{ personal_username }}"
