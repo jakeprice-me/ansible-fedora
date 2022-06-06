@@ -358,7 +358,7 @@
           Exec=/usr/local/bin/guivim %U
           Terminal=false
           Type=Application
-          Icon=/usr/src/vim/runtime/vim48x48.xpm
+          Icon=gvim
           Categories=Application;Utility;TextEditor;
           MimeType=text/plain;x-scheme-handler/guivim;
           StartupNotify=true
