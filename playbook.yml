@@ -35,14 +35,12 @@
         block: |
           fastestmirror=true
           max_parallel_downloads=20
-      become: true
 
     - name: Add repositories
       command: "{{ item.command }}"
       with_items:
         - { command: "dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo" }
         - { command: "dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo" }
-      become: true
 
     - name: Add vscodium repository
       copy:
@@ -65,7 +63,6 @@
         backup: yes
         regexp: "\\$releasever"
         replace: "34"
-      become: true
 
     - name: Update repositories and packages
       dnf:
@@ -128,6 +125,7 @@
           - qrencode
           - remmina
           - ruby
+          - sqlitebrowser
           - terraform
           - tftp
           - thunderbird
@@ -145,6 +143,12 @@
       dnf:
         name: "@Multimedia"
         state: present
+
+    - name: Install GitHub CLI rpm
+      dnf:
+        name: https://github.com/cli/cli/releases/download/v2.12.1/gh_2.12.1_linux_amd64.rpm
+        state: present
+        disable_gpg_check: yes
 
     - name: Add the flathub flatpak repository remote to the user installation
       flatpak_remote:
@@ -169,7 +173,6 @@
           - pylint
           - requests
         extra_args: --user
-      become: true
       become_user: "{{ personal_username }}"
     
     - name: Make tmux plugin directory
@@ -239,7 +242,6 @@
         hour: "*"
         weekday: "*"
         job: /usr/local/bin/unison -batch elitebook && curl --fail --silent --show-error --retry 5 --output /dev/null {{ healthcheck_unison }}
-      become: true
       become_user: "{{ personal_username }}"
 
     - name: Download fonts and additional packages
@@ -270,7 +272,6 @@
         dest: "/home/{{ personal_username }}/opt/Espanso-X11.AppImage"
         owner: "{{ personal_username }}"
         group: "{{ personal_username }}"
-      become: true
       become_user: "{{ personal_username }}"
 
     - name: Copy files
@@ -306,7 +307,6 @@
         mode: 0644
         content: |
           export CODE_ROOT={{ code_root }}
-      become: true
       become_user: "{{ personal_username }}"
 
     - name: Create .docs_root
@@ -315,7 +315,6 @@
         mode: 0644
         content: |
           export DOCS_ROOT={{ docs_root }}
-      become: true
       become_user: "{{ personal_username }}"
 
     - name: Add dotfiles and other config files
@@ -333,7 +332,6 @@
         - { src: "~/my/files/code/misc-config/unison/elitebook.prf", dest: "/home/{{ personal_username }}/.unison/elitebook.prf" }
         - { src: "~/my/files/code/espanso-config", dest: "/home/{{ personal_username }}/.config/espanso" }
       become_user: "{{ personal_username }}"
-      become: false
     
     - name: Symlink SSH directory
       file:
@@ -345,7 +343,6 @@
       with_items:
         - { src: "$HOME/my/files/documents/vault/ssh", dest: "/home/{{ personal_username }}/.ssh" }
       become_user: "{{ personal_username }}"
-      become: false
 
     - name: Setup GuiVim URI Handler
       copy:
@@ -411,12 +408,10 @@
 
     - name: Create the espanso command alias
       command: "/home/{{ personal_username }}/opt/Espanso-X11.AppImage env-path register"
-      become: true
       when: espanso_exists.rc == 1
 
     - name: Update desktop database to pick up GuiVim URI
       command: update-desktop-database
-      become: true
 
     - name: Get Firefox default release profile name
       find:
@@ -580,7 +575,6 @@
         - { name: user.name, value: "{{ git_config_user_name }}" }
         - { name: user.email, value: "{{ git_config_user_email }}" }
         - { name: init.defaultBranch, value: master }
-      become: true
       become_user: "{{ personal_username }}"
 
     - name: When laptop lid closed and connected to a monitor don't go to sleep
@@ -589,7 +583,6 @@
         backup: yes
         regexp: "#HandleLidSwitchDocked=ignore"
         replace: "HandleLidSwitchDocked=ignore"
-      become: true
 
     - name: Enable & start services
       ansible.builtin.systemd:
