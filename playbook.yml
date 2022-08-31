@@ -122,6 +122,7 @@
           - papirus-icon-theme
           - python3-devel
           - python3-pip
+          - qalc
           - qrencode
           - remmina
           - ruby
