@@ -123,6 +123,7 @@
           - python3-devel
           - python3-pip
           - qalc
+          - qpdf
           - qrencode
           - remmina
           - ruby
