@@ -254,12 +254,12 @@
         group: "{{ personal_username }}"
         remote_src: yes
       with_items:
-        - { src: "https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip", dest: /tmp }
         - { src: "https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip", dest: /tmp }
-        - { src: "https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip", dest: /tmp }
         - { src: "https://github.com/bcpierce00/unison/releases/download/v2.51.4/unison-v2.51.4+ocaml-4.12.0+x86_64.linux.tar.gz", dest: /tmp }
         - { src: "https://github.com/charmbracelet/glow/releases/download/v1.4.1/glow_1.4.1_linux_x86_64.tar.gz", dest: /tmp }
-
+        - { src: "https://github.com/gohugoio/hugo/releases/download/v0.104.0/hugo_0.104.0_Linux-64bit.tar.gz", dest: /tmp }
+        - { src: "https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip", dest: /tmp }
+        - { src: "https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip", dest: /tmp }
 
     - name: Make personal opt directory
       file:
@@ -281,6 +281,8 @@
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
       with_items:
+        # Hugo:
+        - { src: /tmp/hugo, dest: /usr/local/bin/hugo }
         # Glow:
         - { src: /tmp/glow, dest: /usr/local/bin/glow }
         # Inconsolata:
@@ -399,6 +401,7 @@
         - { path: "/home/{{ personal_username }}/opt/Espanso-X11.AppImage", mode: "0755" }
         - { path: /usr/local/bin/glow, mode: "0755" }
         - { path: /usr/local/bin/guivim, mode: "0755" }
+        - { path: /usr/local/bin/hugo, mode: "0755" }
         - { path: /usr/local/bin/unison, mode: "0755" }
 
     - name: Get Firefox default release profile name
