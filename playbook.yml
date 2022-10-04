@@ -571,6 +571,10 @@
     - name: Sort Gnome applications screen alphabetically
       command: gsettings set org.gnome.shell app-picker-layout "[]"
 
+    - name: Disable caps lock key
+      command: setxkbmap -option ctrl:nocaps
+      # Renable with `setxkbmap -option`
+
     - name: Configure Git user and email
       community.general.git_config:
         name: "{{ item.name }}"
