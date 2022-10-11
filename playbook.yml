@@ -530,7 +530,7 @@
       become_user: "{{ personal_username }}"
       with_items:
         - { key: "/org/gnome/desktop/background/picture-options", value: "'stretched'", state: "present" }
-        - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///usr/share/backgrounds/gnome/blobs-l.svg'", state: "present" }
+        - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///home/jprice/Wallpapers/976156.png'", state: "present" }
         - { key: "/org/gnome/desktop/input-sources/xkb-options", value: "['caps:none']", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-format", value: "'24h'", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
