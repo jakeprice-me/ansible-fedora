@@ -587,12 +587,19 @@
         - { name: init.defaultBranch, value: master }
       become_user: "{{ personal_username }}"
 
-    - name: When laptop lid closed and connected to a monitor don't go to sleep
+    - name: Laptop lid closure settings
       replace:
         path: /etc/systemd/logind.conf
         backup: yes
         regexp: "#HandleLidSwitchDocked=ignore"
         replace: "HandleLidSwitchDocked=ignore"
+      with_items:
+        # Suspend when on battery:
+        - { regexp: "#HandleLidSwitch=suspend", replace: "HandleLidSwitch=suspend" }
+        # Don't suspend when on dock:
+        - { regexp: "#HandleLidSwitchDocked=ignore", replace: "HandleLidSwitchDocked=ignore" }
+        # Suspend when on power:
+        - { regexp: "#HandleLidSwitchExternalPower=suspend", replace: "HandleLidSwitchExternalPower=suspend" }
 
     - name: Enable & start services
       ansible.builtin.systemd:
