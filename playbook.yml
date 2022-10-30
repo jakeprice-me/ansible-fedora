@@ -121,8 +121,6 @@
           - gnome-tweaks
           - golang-github-prometheus-node-exporter
           - graphviz
-          - hledger
-          - hledger-web
           - hplip
           - hplip-common
           - hplip-libs
@@ -150,7 +148,6 @@
           - sqlitebrowser
           - terraform
           - tftp
-          - thunderbird
           - tmux
           - tree
           - vim
