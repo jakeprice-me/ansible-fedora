@@ -29,6 +29,11 @@
         - { name: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-36.noarch.rpm" }
         - { name: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-36.noarch.rpm" }
 
+    - name: Import 1Password Repo Key
+      rpm_key:
+        state: present
+        key: https://downloads.1password.com/linux/keys/1password.asc
+
     - name: Configure dnf
       blockinfile:
         path: /etc/dnf/dnf.conf
@@ -41,6 +46,19 @@
       with_items:
         - { command: "dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo" }
         - { command: "dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo" }
+
+    - name: Add 1Password repository
+      copy:
+        dest: /etc/yum.repos.d/1password.repo
+        mode: 0644
+        content: |
+          [1password]
+          name=1Password Stable Channel
+          baseurl=https://downloads.1password.com/linux/rpm/stable/$basearch
+          enabled=1
+          gpgcheck=1
+          repo_gpgcheck=1
+          gpgkey="https://downloads.1password.com/linux/keys/1password.asc"
 
     - name: Add vscodium repository
       copy:
@@ -74,6 +92,7 @@
       dnf:
         state: latest
         name: 
+          - 1password
           - ImageMagick
           - ShellCheck
           - android-tools
@@ -100,6 +119,7 @@
           - gnome-extensions-app
           - gnome-shell-extension-user-theme
           - gnome-tweaks
+          - golang-github-prometheus-node-exporter
           - graphviz
           - hledger
           - hledger-web
@@ -270,7 +290,7 @@
 
     - name: Download Espanso AppImage
       get_url:
-        url: https://github.com/federico-terzi/espanso/releases/download/v2.1.5-beta/Espanso-X11.AppImage
+        url: https://github.com/espanso/espanso/releases/download/v2.1.7-beta/Espanso-X11.AppImage
         dest: "/home/{{ personal_username }}/opt/Espanso-X11.AppImage"
         owner: "{{ personal_username }}"
         group: "{{ personal_username }}"
@@ -609,4 +629,5 @@
       with_items:
         - { name: crond }
         - { name: docker }
+        - { name: node_exporter }
 
