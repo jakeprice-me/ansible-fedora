@@ -303,10 +303,6 @@
         - { src: /tmp/hugo, dest: /usr/local/bin/hugo }
         # Glow:
         - { src: /tmp/glow, dest: /usr/local/bin/glow }
-        # Inconsolata:
-        - { src: /tmp/fonts/ttf/, dest: /usr/local/share/fonts/ }
-        # Inter:
-        - { src: /tmp/Inter Variable/Inter.ttf, dest: /usr/local/share/fonts/ }
         # Ubuntu Mono:
         - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-BI.ttf, dest: /usr/local/share/fonts/ }
         - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-B.ttf, dest: /usr/local/share/fonts/ }
