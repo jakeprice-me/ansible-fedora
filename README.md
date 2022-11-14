@@ -30,7 +30,6 @@ git_config_user_email: <value>
 git_config_user_name: <value>
 healthcheck_unison: <value>
 personal_username: <value>
-unison_script: <value>
 ```
 
 ## Ansible Collections
