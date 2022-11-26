@@ -145,6 +145,7 @@
           - qpdf
           - qrencode
           - remmina
+          - ripgrep
           - ruby
           - sqlitebrowser
           - terraform
