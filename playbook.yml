@@ -44,8 +44,9 @@
     - name: Add repositories
       command: "{{ item.command }}"
       with_items:
-        - { command: "dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo" }
         - { command: "dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo" }
+        - { command: "dnf config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo" }
+        - { command: "dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo" }
 
     - name: Add 1Password repository
       copy:
@@ -148,6 +149,7 @@
           - ripgrep
           - ruby
           - sqlitebrowser
+          - tailscale
           - terraform
           - tftp
           - tmux
@@ -629,4 +631,5 @@
         - { name: crond }
         - { name: docker }
         - { name: node_exporter }
+        - { name: tailscaled }
 
