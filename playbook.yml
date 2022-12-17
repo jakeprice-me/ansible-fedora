@@ -263,7 +263,6 @@
         - { path: "/home/{{ personal_username }}/.themes/custom/gnome-shell" }
         - { path: "/home/{{ personal_username }}/.config/espanso" }
         - { path: "/home/{{ personal_username }}/.unison" }
-        - { path: /var/log/unison }
 
     - name: Add regular Unison file syncs
       ansible.builtin.cron:
@@ -271,7 +270,7 @@
         minute: "*/5"
         hour: "*"
         weekday: "*"
-        job: /usr/local/bin/unison -batch elitebook && curl --fail --silent --show-error --retry 5 --output /dev/null {{ healthcheck_unison }}
+        job: docker run --rm --env UNISONLOCALHOSTNAME={{ hostname }} --volume /etc/timezone:/etc/timezone:ro --volume /etc/localtime:/etc/localtime:ro --volume ~/.unison/{{ hostname }}.prf:/home/unison/.unison/{{ hostname }}.prf --volume ~/.unison:/home/unison/.unison  --volume ~/.ssh:/home/unison/.ssh --volume ~/my/:/home/unison/my/ --volume /tmp/.unison_sync_{{ hostname }}.log:/tmp/.unison_sync_{{ hostname }}.log --tty jakepricedev/docker-unison:2.52.1-r0 -batch {{ hostname }} && curl --fail --silent --show-error --retry 5 --output /dev/null {{ healthcheck_unison }}
       become_user: "{{ personal_username }}"
 
     - name: Download fonts and additional packages
@@ -283,7 +282,6 @@
         remote_src: yes
       with_items:
         - { src: "https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip", dest: /tmp }
-        - { src: "https://github.com/bcpierce00/unison/releases/download/v2.51.4/unison-v2.51.4+ocaml-4.12.0+x86_64.linux.tar.gz", dest: /tmp }
         - { src: "https://github.com/charmbracelet/glow/releases/download/v1.4.1/glow_1.4.1_linux_x86_64.tar.gz", dest: /tmp }
         - { src: "https://github.com/gohugoio/hugo/releases/download/v0.104.0/hugo_0.104.0_Linux-64bit.tar.gz", dest: /tmp }
         - { src: "https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip", dest: /tmp }
@@ -318,8 +316,6 @@
         - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-B.ttf, dest: /usr/local/share/fonts/ }
         - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-RI.ttf, dest: /usr/local/share/fonts/ }
         - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-R.ttf, dest: /usr/local/share/fonts/ }
-        # Unison
-        - { src: /tmp/bin/unison, dest: /usr/local/bin/unison }
     
     - name: Install fonts
       command: fc-cache /usr/local/share/fonts/
@@ -358,7 +354,7 @@
         - { src: "~/my/files/code/dotfiles/vimrc", dest: "/home/{{ personal_username }}/.vimrc" }
         - { src: "~/my/files/code/espanso-config", dest: "/home/{{ personal_username }}/.config/espanso" }
         - { src: "~/my/files/code/misc-config/alacritty", dest: "/home/{{ personal_username }}/.config/alacritty" }
-        - { src: "~/my/files/code/misc-config/unison/elitebook.prf", dest: "/home/{{ personal_username }}/.unison/elitebook.prf" }
+        - { src: "~/my/files/code/misc-config/unison/{{ hostname }}.prf", dest: "/home/{{ personal_username }}/.unison/{{ hostname }}.prf" }
         - { src: "~/my/files/code/misc-config/vim/colors", dest: "/home/{{ personal_username }}/.vim/colors" }
       become_user: "{{ personal_username }}"
     
@@ -427,7 +423,6 @@
         - { path: /usr/local/bin/glow, mode: "0755" }
         - { path: /usr/local/bin/guivim, mode: "0755" }
         - { path: /usr/local/bin/hugo, mode: "0755" }
-        - { path: /usr/local/bin/unison, mode: "0755" }
 
     - name: Get Firefox default release profile name
       command: which espanso
