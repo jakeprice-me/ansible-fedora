@@ -117,7 +117,7 @@
           - dnsutils
           - docker-ce
           - docker-ce-cli
-          - docker-compose
+          - docker-compose-plugin
           - dos2unix
           - fd-find
           - ffmpeg
