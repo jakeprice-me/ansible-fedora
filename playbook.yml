@@ -52,7 +52,6 @@
       command: "{{ item.command }}"
       with_items:
         - { command: "dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo" }
-        - { command: "dnf config-manager --add-repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo" }
         - { command: "dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo" }
 
     - name: Add 1Password repository
@@ -156,7 +155,6 @@
           - ripgrep
           - ruby
           - sqlitebrowser
-          - tailscale
           - terraform
           - tftp
           - tmux
@@ -165,6 +163,8 @@
           - vim-X11
           - vim-common
           - vlc
+          - wireguard
+          - wireguard-tools
           - wget
           - xclip
           - xrandr
@@ -352,6 +352,7 @@
       with_items:
         - { src: "~/my/files/code/dotfiles/bashrc", dest: "/home/{{ personal_username }}/.bashrc" }
         - { src: "~/my/files/code/dotfiles/supplementary/vim/colors", dest: "/home/{{ personal_username }}/.vim/colors" }
+        - { src: "~/my/files/code/dotfiles/supplementary/vim/coc-settings.json", dest: "/home/{{ personal_username }}/.vim/coc-settings.json" }
         - { src: "~/my/files/code/dotfiles/tmux.conf", dest: "/home/{{ personal_username }}/.tmux.conf" }
         - { src: "~/my/files/code/dotfiles/vimrc", dest: "/home/{{ personal_username }}/.vimrc" }
         - { src: "~/my/files/code/espanso-config", dest: "/home/{{ personal_username }}/.config/espanso" }
@@ -634,5 +635,4 @@
         - { name: crond }
         - { name: docker }
         - { name: node_exporter }
-        - { name: tailscaled }
 
