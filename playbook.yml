@@ -180,6 +180,14 @@
         state: present
         disable_gpg_check: yes
 
+    - name: Download Broot
+      ansible.builtin.get_url:
+        url: https://dystroy.org/broot/download/x86_64-linux/broot
+        dest: /usr/local/bin/broot
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        mode: 0777
+    
     - name: Add the flathub flatpak repository remote to the user installation
       flatpak_remote:
         name: flathub
