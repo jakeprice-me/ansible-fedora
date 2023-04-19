@@ -289,7 +289,7 @@
         minute: "*/5"
         hour: "*"
         weekday: "*"
-        job: "docker run --rm --user 1000:1000 --env UNISONLOCALHOSTNAME={{ hostname }} --volume /etc/timezone:/etc/timezone:ro --volume /etc/localtime:/etc/localtime:ro --volume /etc/passwd:/etc/passwd --volume $HOME/.unison:/home/{{ personal_username }}/.unison --volume $HOME/.unison_sync_{{ hostname }}.log:/home/{{ personal_username }}/.unison_sync_{{ hostname }}.log --volume $HOME/.ssh/main-01:/home/{{ personal_username }}/.ssh/main-01 --volume $HOME/.ssh/known_hosts:/home/{{ personal_username }}/.ssh/known_hosts --volume $HOME/my:/home/{{ personal_username }}/my --tty jakepricedev/docker-unison:2.52.1-r0 -batch {{ hostname }} && curl --fail --silent --show-error --retry 5 --output /dev/null {{ healthcheck_unison }}"
+        job: "docker run --rm --user 1000:1000 --env UNISONLOCALHOSTNAME={{ hostname }} --volume /etc/timezone:/etc/timezone:ro --volume /etc/localtime:/etc/localtime:ro --volume /etc/passwd:/etc/passwd --volume $HOME/.unison:/home/{{ personal_username }}/.unison --volume $HOME/.unison_sync_{{ hostname }}.log:/home/{{ personal_username }}/.unison_sync_{{ hostname }}.log --volume $HOME/.ssh/host-01:/home/{{ personal_username }}/.ssh/host-01 --volume $HOME/.ssh/known_hosts:/home/{{ personal_username }}/.ssh/known_hosts --volume $HOME/my:/home/{{ personal_username }}/my --tty jakepricedev/docker-unison:2.52.1-r0 -batch {{ hostname }} && curl --fail --silent --show-error --retry 5 --output /dev/null {{ healthcheck_unison }}"
       become_user: "{{ personal_username }}"
 
     - name: Download fonts and additional packages
