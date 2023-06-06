@@ -145,7 +145,6 @@
           - p7zip
           - p7zip-plugins
           - pandoc
-          - papirus-icon-theme
           - python3-devel
           - python3-pip
           - qalc
