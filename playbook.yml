@@ -370,16 +370,15 @@
         group: "{{ personal_username }}"
         state: link
       with_items:
+        - { src: "~/my/files/code/dotfiles/alacritty", dest: "/home/{{ personal_username }}/.config/alacritty" }
+        - { src: "~/my/files/code/dotfiles/atuin", dest: "/home/{{ personal_username }}/.config/atuin" }
         - { src: "~/my/files/code/dotfiles/bashrc", dest: "/home/{{ personal_username }}/.bashrc" }
+        - { src: "~/my/files/code/dotfiles/espanso", dest: "/home/{{ personal_username }}/.config/espanso" }
         - { src: "~/my/files/code/dotfiles/supplementary/vim/coc-settings.json", dest: "/home/{{ personal_username }}/.vim/coc-settings.json" }
         - { src: "~/my/files/code/dotfiles/supplementary/vim/colors", dest: "/home/{{ personal_username }}/.vim/colors" }
         - { src: "~/my/files/code/dotfiles/tmux.conf", dest: "/home/{{ personal_username }}/.tmux.conf" }
+        - { src: "~/my/files/code/dotfiles/unison/{{ hostname }}.prf", dest: "/home/{{ personal_username }}/.unison/{{ hostname }}.prf" }
         - { src: "~/my/files/code/dotfiles/vimrc", dest: "/home/{{ personal_username }}/.vimrc" }
-        - { src: "~/my/files/code/espanso-config", dest: "/home/{{ personal_username }}/.config/espanso" }
-        - { src: "~/my/files/code/misc-config/alacritty", dest: "/home/{{ personal_username }}/.config/alacritty" }
-        - { src: "~/my/files/code/misc-config/atuin", dest: "/home/{{ personal_username }}/.config/atuin" }
-        - { src: "~/my/files/code/misc-config/unison/{{ hostname }}.prf", dest: "/home/{{ personal_username }}/.unison/{{ hostname }}.prf" }
-        - { src: "~/my/files/code/misc-config/unison/{{ hostname }}.prf", dest: "/home/{{ personal_username }}/.unison/{{ hostname }}.prf" }
       become_user: "{{ personal_username }}"
     
     - name: Symlink SSH directory
