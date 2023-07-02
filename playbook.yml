@@ -355,6 +355,7 @@
       with_items:
         - { src: "~/my/files/code/dotfiles/alacritty", dest: "/home/{{ personal_username }}/.config/alacritty" }
         - { src: "~/my/files/code/dotfiles/atuin", dest: "/home/{{ personal_username }}/.config/atuin" }
+        - { src: "~/my/files/code/dotfiles/copyq/copyq.conf", dest: "/home/{{ personal_username }}/.config/copyq/copyq.conf" }
         - { src: "~/my/files/code/dotfiles/espanso", dest: "/home/{{ personal_username }}/.config/espanso" }
         - { src: "~/my/files/code/dotfiles/fish", dest: "/home/{{ personal_username }}/.config/fish" }
         - { src: "~/my/files/code/dotfiles/tmux/tmux.conf", dest: "/home/{{ personal_username }}/.tmux.conf" }
