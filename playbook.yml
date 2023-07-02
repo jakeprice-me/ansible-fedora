@@ -318,8 +318,6 @@
       with_items:
         # Atuin:
         - { src: /tmp/atuin-v15.0.0-x86_64-unknown-linux-gnu/atuin, dest: /usr/local/bin/atuin }
-        # Hugo:
-        - { src: /tmp/hugo, dest: /usr/local/bin/hugo }
         # Glow:
         - { src: /tmp/glow, dest: /usr/local/bin/glow }
         # Ubuntu Mono:
@@ -430,7 +428,6 @@
         - { path: "/home/{{ personal_username }}/opt/Espanso-X11.AppImage", mode: "0755" }
         - { path: /usr/local/bin/glow, mode: "0755" }
         - { path: /usr/local/bin/guivim, mode: "0755" }
-        - { path: /usr/local/bin/hugo, mode: "0755" }
 
     - name: Change default shell to fish
       user:
