@@ -594,7 +594,7 @@
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type", value: "'nothing'", state: "present" }
-        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'Alacritty.desktop', 'md.obsidian.Obsidian.desktop', '1password.desktop', 'org.gnome.Nautilus.desktop']", state: "present" }
+        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'Alacritty.desktop', 'md.obsidian.Obsidian.desktop', '1password.desktop', 'org.gnome.Nautilus.desktop', 'org.telegram.desktop.desktop']", state: "present" }
         - { key: "/org/gnome/shell/keybindings/toggle-overview", value: "['<Super>Tab']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
