@@ -12,350 +12,340 @@
 
   tasks:
   
-    #    - name: Set timezone
-    #      community.general.timezone:
-    #        name: Europe/London
-    #    
-    #    - name: Set hostname
-    #      hostname:
-    #        name: "{{ hostname }}"
-    #
-    #    - name: Specify if device is a server
-    #      blockinfile:
-    #        path: $HOME/.profile
-    #        block: |
-    #          export IS_A_SERVER=0
-    #      become_user: "{{ personal_username }}"
-    #    
-    #    - name: Install RPM Fusion
-    #      dnf:
-    #        name: "{{ item.name }}"
-    #        state: present
-    #        disable_gpg_check: yes
-    #      with_items:
-    #        - { name: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-36.noarch.rpm" }
-    #        - { name: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-36.noarch.rpm" }
-    #
-    #    - name: Import 1Password Repo Key
-    #      rpm_key:
-    #        state: present
-    #        key: https://downloads.1password.com/linux/keys/1password.asc
-    #
-    #    - name: Configure dnf
-    #      blockinfile:
-    #        path: /etc/dnf/dnf.conf
-    #        block: |
-    #          fastestmirror=true
-    #          max_parallel_downloads=20
-    #
-    #    - name: Add repositories
-    #      command: "{{ item.command }}"
-    #      with_items:
-    #        - { command: "dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo" }
-    #        - { command: "dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo" }
-    #
-    #    - name: Add 1Password repository
-    #      copy:
-    #        dest: /etc/yum.repos.d/1password.repo
-    #        mode: 0644
-    #        content: |
-    #          [1password]
-    #          name=1Password Stable Channel
-    #          baseurl=https://downloads.1password.com/linux/rpm/stable/$basearch
-    #          enabled=1
-    #          gpgcheck=1
-    #          repo_gpgcheck=1
-    #          gpgkey="https://downloads.1password.com/linux/keys/1password.asc"
-    #
-    #    - name: Add vscodium repository
-    #      copy:
-    #        dest: /etc/yum.repos.d/vscodium.repo
-    #        mode: 0644
-    #        content: |
-    #          [gitlab.com_paulcarroty_vscodium_repo]
-    #          name=download.vscodium.com
-    #          baseurl=https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/rpms/
-    #          enabled=1
-    #          gpgcheck=1
-    #          repo_gpgcheck=1
-    #          gpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
-    #          metadata_expire=1h
-    #
-    #    - name: Replace $releasever version in Docker repo
-    #      # Reason for this https://stackoverflow.com/a/69531184
-    #      replace:
-    #        path: /etc/yum.repos.d/docker-ce.repo
-    #        backup: yes
-    #        regexp: "\\$releasever"
-    #        replace: "34"
-    #
-    #    - name: Update repositories and packages
-    #      dnf:
-    #        name: "*"
-    #        state: latest
-    #        update_cache: yes
-    #    
-    #    - name: Install packages
-    #      dnf:
-    #        state: latest
-    #        name: 
-    #          - 1password
-    #          - ImageMagick
-    #          - ShellCheck
-    #          - alacritty
-    #          - android-tools
-    #          - bat
-    #          - chromium
-    #          - cifs-utils
-    #          - codium
-    #          - containerd.io
-    #          - copyq
-    #          - cronie
-    #          - curl
-    #          - dconf-editor
-    #          - dnsutils
-    #          - docker-ce
-    #          - docker-ce-cli
-    #          - docker-compose-plugin
-    #          - dos2unix
-    #          - fd-find
-    #          - ffmpeg
-    #          - fish
-    #          - flameshot
-    #          - fzf
-    #          - gcc
-    #          - git
-    #          - gnome-extensions-app
-    #          - gnome-shell-extension-user-theme
-    #          - gnome-tweaks
-    #          - golang-github-prometheus-node-exporter
-    #          - graphviz
-    #          - hplip
-    #          - hplip-common
-    #          - hplip-libs
-    #          - ipcalc
-    #          - jq
-    #          - keepassxc
-    #          - libsane-hpaio
-    #          - libxdo
-    #          - lm_sensors
-    #          - mailx
-    #          - net-tools
-    #          - nmap
-    #          - openssl
-    #          - p7zip
-    #          - p7zip-plugins
-    #          - pandoc
-    #          - python3-devel
-    #          - python3-pip
-    #          - qalc
-    #          - qpdf
-    #          - qrencode
-    #          - remmina
-    #          - ripgrep
-    #          - ruby
-    #          - sqlitebrowser
-    #          - terraform
-    #          - tftp
-    #          - tmux
-    #          - tree
-    #          - vim
-    #          - vim-X11
-    #          - vim-common
-    #          - vlc
-    #          - wireguard
-    #          - wireguard-tools
-    #          - wget
-    #          - xclip
-    #          - xrandr
-    #
-    #    - name: Install Package Groups
-    #      dnf:
-    #        name: "@Multimedia"
-    #        state: present
-    #
-    #    - name: Install GitHub CLI rpm
-    #      dnf:
-    #        name: https://github.com/cli/cli/releases/download/v2.12.1/gh_2.12.1_linux_amd64.rpm
-    #        state: present
-    #        disable_gpg_check: yes
-    #
-    #    - name: Download Broot
-    #      ansible.builtin.get_url:
-    #        url: https://dystroy.org/broot/download/x86_64-linux/broot
-    #        dest: /usr/local/bin/broot
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        mode: 0777
-    #    
-    #    - name: Download bash preexec (for Atuin)
-    #      ansible.builtin.get_url:
-    #        url: https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh 
-    #        dest: ~/.bash-preexec.sh
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        mode: 0777
-    #      become: true
-    #      become_user: "{{ personal_username }}"
-    # 
-    #    - name: Add the flathub flatpak repository remote to the user installation
-    #      flatpak_remote:
-    #        name: flathub
-    #        state: present
-    #        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
-    #    
-    #    - name: Install FlatHub packages
-    #      flatpak:
-    #        name: "{{ item.name }}"
-    #        state: present
-    #      with_items:
-    #        - { name:  org.telegram.desktop }
-    #        - { name:  com.jgraph.drawio.desktop }
-    #
-    #    - name: Install Python Packages
-    #      pip:
-    #        name:
-    #          - black
-    #          - jmespath
-    #          - pipreqs
-    #          - psutil
-    #          - pylint
-    #          - requests
-    #        extra_args: --user
-    #      become_user: "{{ personal_username }}"
-    #    
-    #    - name: Make tmux plugin directory
-    #      file:
-    #        path: "/home/{{ personal_username }}/.tmux/plugins"
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        recurse: yes      
-    #
-    #    - name: Clone Tmux Plugin Manager
-    #      ansible.builtin.git:
-    #        repo: https://github.com/tmux-plugins/tpm.git
-    #        dest: ~/.tmux/plugins/tpm
-    #    
-    #    - name: Make vim-plug directory
-    #      file:
-    #        path: "/home/{{ personal_username }}/.vim/autoload"
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        recurse: yes      
-    #
-    #    - name: Download Vim Plug
-    #      get_url:
-    #        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    #        dest: "/home/{{ personal_username }}/.vim/autoload/plug.vim"
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #
-    #    - name: Add user to groups
-    #      ansible.builtin.user:
-    #        name: "{{ personal_username }}"
-    #        groups:
-    #          - "{{ personal_username }}"
-    #          - wheel
-    #          - docker
-    #    
-    #    - name: Remove default folders
-    #      file:
-    #        path: "/home/{{ personal_username }}/{{ item.path }}"
-    #        state: absent
-    #      with_items:
-    #        - { path: Desktop }
-    #        - { path: Documents }
-    #        - { path: Music }
-    #        - { path: Pictures }
-    #        - { path: Public }
-    #        - { path: Templates }
-    #        - { path: Videos }
-    #    
-    #    - name: Create home directories
-    #      file:
-    #        path: "{{ item.path }}"
-    #        state: directory
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        recurse: yes
-    #      with_items:
-    #        - { path: "/home/{{ personal_username }}/.themes/custom/gnome-shell" }
-    #        - { path: "/home/{{ personal_username }}/.config/espanso" }
-    #        - { path: "/home/{{ personal_username }}/.unison" }
-    #
-    #    - name: Add regular Unison file syncs
-    #      ansible.builtin.cron:
-    #        name: "Unison Sync"
-    #        minute: "*/5"
-    #        hour: "*"
-    #        weekday: "*"
-    #        job: "docker run --rm --user 1000:1000 --env UNISONLOCALHOSTNAME={{ hostname }} --volume /etc/timezone:/etc/timezone:ro --volume /etc/localtime:/etc/localtime:ro --volume /etc/passwd:/etc/passwd --volume $HOME/.unison:/home/{{ personal_username }}/.unison --volume $HOME/.unison_sync_{{ hostname }}.log:/home/{{ personal_username }}/.unison_sync_{{ hostname }}.log --volume $HOME/.ssh/host-01:/home/{{ personal_username }}/.ssh/host-01 --volume $HOME/.ssh/known_hosts:/home/{{ personal_username }}/.ssh/known_hosts --volume $HOME/my:/home/{{ personal_username }}/my --tty jakepricedev/docker-unison:2.52.1-r0 -batch {{ hostname }} && curl --fail --silent --show-error --retry 5 --output /dev/null {{ healthcheck_unison }}"
-    #      become_user: "{{ personal_username }}"
-    #
-    #    - name: Download fonts and additional packages
-    #      unarchive:
-    #        src: "{{ item.src }}"
-    #        dest: "{{ item.dest }}"
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        remote_src: yes
-    #      with_items:
-    #        - { src: "https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip", dest: /tmp }
-    #        - { src: "https://github.com/charmbracelet/glow/releases/download/v1.5.1/glow_Linux_x86_64.tar.gz", dest: /tmp }
-    #        - { src: "https://github.com/ellie/atuin/releases/download/v15.0.0/atuin-v15.0.0-x86_64-unknown-linux-gnu.tar.gz", dest: /tmp }
-    #        - { src: "https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip", dest: /tmp }
-    #        - { src: "https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip", dest: /tmp }
-    #
-    #    - name: Make personal opt directory
-    #      file:
-    #        path: "/home/{{ personal_username }}/opt"
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #        recurse: yes
-    #
-    #    - name: Download Espanso AppImage
-    #      get_url:
-    #        url: https://github.com/espanso/espanso/releases/download/v2.1.8/Espanso-X11.AppImage 
-    #        dest: "/home/{{ personal_username }}/opt/Espanso-X11.AppImage"
-    #        owner: "{{ personal_username }}"
-    #        group: "{{ personal_username }}"
-    #      become_user: "{{ personal_username }}"
-    #
-    #    - name: Copy files
-    #      copy:
-    #        src: "{{ item.src }}"
-    #        dest: "{{ item.dest }}"
-    #      with_items:
-    #        # Atuin:
-    #        - { src: /tmp/atuin-v15.0.0-x86_64-unknown-linux-gnu/atuin, dest: /usr/local/bin/atuin }
-    #        # Hugo:
-    #        - { src: /tmp/hugo, dest: /usr/local/bin/hugo }
-    #        # Glow:
-    #        - { src: /tmp/glow, dest: /usr/local/bin/glow }
-    #        # Ubuntu Mono:
-    #        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-BI.ttf, dest: /usr/local/share/fonts/ }
-    #        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-B.ttf, dest: /usr/local/share/fonts/ }
-    #        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-RI.ttf, dest: /usr/local/share/fonts/ }
-    #        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-R.ttf, dest: /usr/local/share/fonts/ }
-    #    
-    #    - name: Install fonts
-    #      command: fc-cache /usr/local/share/fonts/
-    #    
-    #    - name: Create .code_root
-    #      copy:
-    #        dest: ~/.code_root
-    #        mode: 0644
-    #        content: |
-    #          export CODE_ROOT={{ code_root }}
-    #      become_user: "{{ personal_username }}"
-    #
-    #    - name: Create .docs_root
-    #      copy:
-    #        dest: ~/.docs_root
-    #        mode: 0644
-    #        content: |
-    #          export DOCS_ROOT={{ docs_root }}
-    #      become_user: "{{ personal_username }}"
+    - name: Set timezone
+      community.general.timezone:
+        name: Europe/London
+    
+    - name: Set hostname
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: Specify if device is a server
+      blockinfile:
+        path: $HOME/.profile
+        block: |
+          export IS_A_SERVER=0
+      become_user: "{{ personal_username }}"
+    
+    - name: Install RPM Fusion
+      dnf:
+        name: "{{ item.name }}"
+        state: present
+        disable_gpg_check: yes
+      with_items:
+        - { name: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-36.noarch.rpm" }
+        - { name: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-36.noarch.rpm" }
+
+    - name: Import 1Password Repo Key
+      rpm_key:
+        state: present
+        key: https://downloads.1password.com/linux/keys/1password.asc
+
+    - name: Configure dnf
+      blockinfile:
+        path: /etc/dnf/dnf.conf
+        block: |
+          fastestmirror=true
+          max_parallel_downloads=20
+
+    - name: Add repositories
+      command: "{{ item.command }}"
+      with_items:
+        - { command: "dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo" }
+        - { command: "dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo" }
+
+    - name: Add 1Password repository
+      copy:
+        dest: /etc/yum.repos.d/1password.repo
+        mode: 0644
+        content: |
+          [1password]
+          name=1Password Stable Channel
+          baseurl=https://downloads.1password.com/linux/rpm/stable/$basearch
+          enabled=1
+          gpgcheck=1
+          repo_gpgcheck=1
+          gpgkey="https://downloads.1password.com/linux/keys/1password.asc"
+
+    - name: Add vscodium repository
+      copy:
+        dest: /etc/yum.repos.d/vscodium.repo
+        mode: 0644
+        content: |
+          [gitlab.com_paulcarroty_vscodium_repo]
+          name=download.vscodium.com
+          baseurl=https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/rpms/
+          enabled=1
+          gpgcheck=1
+          repo_gpgcheck=1
+          gpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
+          metadata_expire=1h
+
+    - name: Replace $releasever version in Docker repo
+      # Reason for this https://stackoverflow.com/a/69531184
+      replace:
+        path: /etc/yum.repos.d/docker-ce.repo
+        backup: yes
+        regexp: "\\$releasever"
+        replace: "34"
+
+    - name: Update repositories and packages
+      dnf:
+        name: "*"
+        state: latest
+        update_cache: yes
+    
+    - name: Install packages
+      dnf:
+        state: latest
+        name: 
+          - 1password
+          - ImageMagick
+          - ShellCheck
+          - alacritty
+          - android-tools
+          - bat
+          - chromium
+          - cifs-utils
+          - codium
+          - containerd.io
+          - copyq
+          - cronie
+          - curl
+          - dconf-editor
+          - dnsutils
+          - docker-ce
+          - docker-ce-cli
+          - docker-compose-plugin
+          - dos2unix
+          - fd-find
+          - ffmpeg
+          - fish
+          - flameshot
+          - fzf
+          - gcc
+          - git
+          - gnome-extensions-app
+          - gnome-shell-extension-user-theme
+          - gnome-tweaks
+          - golang-github-prometheus-node-exporter
+          - graphviz
+          - hplip
+          - hplip-common
+          - hplip-libs
+          - ipcalc
+          - jq
+          - keepassxc
+          - libsane-hpaio
+          - libxdo
+          - lm_sensors
+          - mailx
+          - net-tools
+          - nmap
+          - openssl
+          - p7zip
+          - p7zip-plugins
+          - pandoc
+          - python3-devel
+          - python3-pip
+          - qalc
+          - qpdf
+          - qrencode
+          - remmina
+          - ripgrep
+          - ruby
+          - sqlitebrowser
+          - terraform
+          - tftp
+          - tmux
+          - tree
+          - vim
+          - vim-X11
+          - vim-common
+          - vlc
+          - wireguard
+          - wireguard-tools
+          - wget
+          - xclip
+          - xrandr
+
+    - name: Install Package Groups
+      dnf:
+        name: "@Multimedia"
+        state: present
+
+    - name: Install GitHub CLI rpm
+      dnf:
+        name: https://github.com/cli/cli/releases/download/v2.12.1/gh_2.12.1_linux_amd64.rpm
+        state: present
+        disable_gpg_check: yes
+
+    - name: Download Broot
+      ansible.builtin.get_url:
+        url: https://dystroy.org/broot/download/x86_64-linux/broot
+        dest: /usr/local/bin/broot
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        mode: 0777
+    
+    - name: Add the flathub flatpak repository remote to the user installation
+      flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    
+    - name: Install FlatHub packages
+      flatpak:
+        name: "{{ item.name }}"
+        state: present
+      with_items:
+        - { name:  org.telegram.desktop }
+        - { name:  com.jgraph.drawio.desktop }
+
+    - name: Install Python Packages
+      pip:
+        name:
+          - black
+          - jmespath
+          - pipreqs
+          - psutil
+          - pylint
+          - requests
+        extra_args: --user
+      become_user: "{{ personal_username }}"
+    
+    - name: Make tmux plugin directory
+      file:
+        path: "/home/{{ personal_username }}/.tmux/plugins"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        recurse: yes      
+
+    - name: Clone Tmux Plugin Manager
+      ansible.builtin.git:
+        repo: https://github.com/tmux-plugins/tpm.git
+        dest: ~/.tmux/plugins/tpm
+    
+    - name: Make vim-plug directory
+      file:
+        path: "/home/{{ personal_username }}/.vim/autoload"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        recurse: yes      
+
+    - name: Download Vim Plug
+      get_url:
+        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        dest: "/home/{{ personal_username }}/.vim/autoload/plug.vim"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+
+    - name: Add user to groups
+      ansible.builtin.user:
+        name: "{{ personal_username }}"
+        groups:
+          - "{{ personal_username }}"
+          - wheel
+          - docker
+    
+    - name: Remove default folders
+      file:
+        path: "/home/{{ personal_username }}/{{ item.path }}"
+        state: absent
+      with_items:
+        - { path: Desktop }
+        - { path: Documents }
+        - { path: Music }
+        - { path: Pictures }
+        - { path: Public }
+        - { path: Templates }
+        - { path: Videos }
+    
+    - name: Create home directories
+      file:
+        path: "{{ item.path }}"
+        state: directory
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        recurse: yes
+      with_items:
+        - { path: "/home/{{ personal_username }}/.themes/custom/gnome-shell" }
+        - { path: "/home/{{ personal_username }}/.config/espanso" }
+        - { path: "/home/{{ personal_username }}/.unison" }
+
+    - name: Add regular Unison file syncs
+      ansible.builtin.cron:
+        name: "Unison Sync"
+        minute: "*/5"
+        hour: "*"
+        weekday: "*"
+        job: "docker run --rm --user 1000:1000 --env UNISONLOCALHOSTNAME={{ hostname }} --volume /etc/timezone:/etc/timezone:ro --volume /etc/localtime:/etc/localtime:ro --volume /etc/passwd:/etc/passwd --volume $HOME/.unison:/home/{{ personal_username }}/.unison --volume $HOME/.unison_sync_{{ hostname }}.log:/home/{{ personal_username }}/.unison_sync_{{ hostname }}.log --volume $HOME/.ssh/host-01:/home/{{ personal_username }}/.ssh/host-01 --volume $HOME/.ssh/known_hosts:/home/{{ personal_username }}/.ssh/known_hosts --volume $HOME/my:/home/{{ personal_username }}/my --tty jakepricedev/docker-unison:2.52.1-r0 -batch {{ hostname }} && curl --fail --silent --show-error --retry 5 --output /dev/null {{ healthcheck_unison }}"
+      become_user: "{{ personal_username }}"
+
+    - name: Download fonts and additional packages
+      unarchive:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        remote_src: yes
+      with_items:
+        - { src: "https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip", dest: /tmp }
+        - { src: "https://github.com/charmbracelet/glow/releases/download/v1.5.1/glow_Linux_x86_64.tar.gz", dest: /tmp }
+        - { src: "https://github.com/ellie/atuin/releases/download/v15.0.0/atuin-v15.0.0-x86_64-unknown-linux-gnu.tar.gz", dest: /tmp }
+        - { src: "https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip", dest: /tmp }
+        - { src: "https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip", dest: /tmp }
+
+    - name: Make personal opt directory
+      file:
+        path: "/home/{{ personal_username }}/opt"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        recurse: yes
+
+    - name: Download Espanso AppImage
+      get_url:
+        url: https://github.com/espanso/espanso/releases/download/v2.1.8/Espanso-X11.AppImage 
+        dest: "/home/{{ personal_username }}/opt/Espanso-X11.AppImage"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+      become_user: "{{ personal_username }}"
+
+    - name: Copy files
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      with_items:
+        # Atuin:
+        - { src: /tmp/atuin-v15.0.0-x86_64-unknown-linux-gnu/atuin, dest: /usr/local/bin/atuin }
+        # Hugo:
+        - { src: /tmp/hugo, dest: /usr/local/bin/hugo }
+        # Glow:
+        - { src: /tmp/glow, dest: /usr/local/bin/glow }
+        # Ubuntu Mono:
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-BI.ttf, dest: /usr/local/share/fonts/ }
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-B.ttf, dest: /usr/local/share/fonts/ }
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-RI.ttf, dest: /usr/local/share/fonts/ }
+        - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-R.ttf, dest: /usr/local/share/fonts/ }
+    
+    - name: Install fonts
+      command: fc-cache /usr/local/share/fonts/
+    
+    - name: Create .code_root
+      copy:
+        dest: ~/.code_root
+        mode: 0644
+        content: |
+          export CODE_ROOT={{ code_root }}
+      become_user: "{{ personal_username }}"
+
+    - name: Create .docs_root
+      copy:
+        dest: ~/.docs_root
+        mode: 0644
+        content: |
+          export DOCS_ROOT={{ docs_root }}
+      become_user: "{{ personal_username }}"
 
     - name: Add dotfiles and other config files
       file:
