@@ -219,7 +219,7 @@
         path: "/home/{{ personal_username }}/.tmux/plugins"
         owner: "{{ personal_username }}"
         group: "{{ personal_username }}"
-        recurse: yes      
+        recurse: yes
 
     - name: Clone Tmux Plugin Manager
       ansible.builtin.git:
@@ -518,6 +518,7 @@
           user_pref("experiments.supported", false);
           user_pref("extensions.pocket.enabled", false);
           user_pref("layout.word_select.eat_space_to_next_word", false);
+          user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
           user_pref("mousewheel.min_line_scroll_amount", 25);
           user_pref("network.allow-experiments", false);
           user_pref("privacy.trackingprotection.enabled", true);
@@ -526,6 +527,30 @@
           user_pref("toolkit.telemetry.archive.enabled", false);
           user_pref("toolkit.telemetry.enabled", false);
           user_pref("toolkit.telemetry.unified", false);
+
+    - name: Make Firefox chrome directory for userChrome.css
+      file:
+        path: "/home/{{ personal_username }}/.mozilla/firefox/chrome"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        recurse: yes
+
+    - name: Custom Firefox userChrome for Tab Center Reborn Sidebar Tabs
+      copy:
+        dest: "/home/{{ personal_username }}/.mozilla/firefox/chrome/userChrome.css"
+        mode: 0644
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        content: |
+          /* Hide tab bar */
+          #TabsToolbar {
+            display: none;
+          }
+
+          /* Hide sidebar title */
+          #sidebar-header {
+            display: none;
+          }
 
     - name: Create custom Gnome Shell theme
       copy:
