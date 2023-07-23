@@ -542,15 +542,18 @@
         owner: "{{ personal_username }}"
         group: "{{ personal_username }}"
         content: |
-          /* Hide tab bar */
-          #TabsToolbar {
-            display: none;
+          #main-window #titlebar {
+            overflow: hidden;
+            transition: height 0.3s 0.3s !important;
           }
-
-          /* Hide sidebar title */
-          #sidebar-header {
-            display: none;
-          }
+          /* Default state: Set initial height to enable animation */
+          #main-window #titlebar { height: 3em !important; }
+          #main-window[uidensity="touch"] #titlebar { height: 3.35em !important; }
+          #main-window[uidensity="compact"] #titlebar { height: 2.7em !important; }
+          /* Hidden state: Hide native tabs strip */
+          #main-window[titlepreface*="Sidebery"] #titlebar { height: 0 !important; }
+          /* Hidden state: Fix z-index of active pinned tabs */
+          #main-window[titlepreface*="Sidebery"] #tabbrowser-tabs { z-index: 0 !important; }
 
     - name: Create custom Gnome Shell theme
       copy:
