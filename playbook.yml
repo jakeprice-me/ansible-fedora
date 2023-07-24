@@ -530,14 +530,14 @@
 
     - name: Make Firefox chrome directory for userChrome.css
       file:
-        path: "/home/{{ personal_username }}/.mozilla/firefox/chrome"
+        path: "{{ firefox_profile | json_query('files[*].path | [0]') | replace ('\"', '') }}/chrome"
         owner: "{{ personal_username }}"
         group: "{{ personal_username }}"
         recurse: yes
 
     - name: Custom Firefox userChrome for Tab Center Reborn Sidebar Tabs
       copy:
-        dest: "/home/{{ personal_username }}/.mozilla/firefox/chrome/userChrome.css"
+        dest: "{{ firefox_profile | json_query('files[*].path | [0]') | replace ('\"', '') }}/chrome/userChrome.css"
         mode: 0644
         owner: "{{ personal_username }}"
         group: "{{ personal_username }}"
@@ -551,9 +551,9 @@
           #main-window[uidensity="touch"] #titlebar { height: 3.35em !important; }
           #main-window[uidensity="compact"] #titlebar { height: 2.7em !important; }
           /* Hidden state: Hide native tabs strip */
-          #main-window[titlepreface*="Sidebery"] #titlebar { height: 0 !important; }
+          #main-window[titlepreface*="Firefox"] #titlebar { height: 0 !important; }
           /* Hidden state: Fix z-index of active pinned tabs */
-          #main-window[titlepreface*="Sidebery"] #tabbrowser-tabs { z-index: 0 !important; }
+          #main-window[titlepreface*="Firefox"] #tabbrowser-tabs { z-index: 0 !important; }
 
     - name: Create custom Gnome Shell theme
       copy:
