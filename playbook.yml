@@ -609,13 +609,16 @@
         - { key: "/org/gnome/nautilus/preferences/show-delete-permanently", value: "true", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/show-directory-item-counts", value: "'always'", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/show-image-thumbnails", value: "'always'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings", value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings", value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/']", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding", value: "'<Shift><Alt>c'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command", value: "'copyq show'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name", value: "'Show CopyQ Window'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/binding", value: "'<Shift><Alt>x'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/command", value: "'/usr/bin/flameshot gui'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/name", value: "'Open Flameshot GUI'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/binding", value: "'<Shift><Ctrl>f'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/command", value: "'/usr/bin/bash /home/jprice/my/files/code/bash-scripts/xdotool_search_firefox_tabs.sh'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/name", value: "'Firefox - Search Tabs'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/ambient-enabled", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
