@@ -587,6 +587,9 @@
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/font-name", value: "'Inter Regular 10'", state: "present" }
         - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Ubuntu Mono Regular 13'", state: "present" }
+        - { key: "/org/gnome/desktop/peripherals/keyboard/delay", value: "uint32 250", state: "present" }
+        - { key: "/org/gnome/desktop/peripherals/keyboard/numlock-state", value: "true", state: "present" }
+        - { key: "/org/gnome/desktop/peripherals/keyboard/repeat-interval", value: "uint32 20", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/screensaver/idle-activation-enabled", value: "false", state: "present" }
@@ -606,10 +609,13 @@
         - { key: "/org/gnome/nautilus/preferences/show-delete-permanently", value: "true", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/show-directory-item-counts", value: "'always'", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/show-image-thumbnails", value: "'always'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings", value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding", value: "'<Alt><Shift>C'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings", value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding", value: "'<Shift><Alt>c'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command", value: "'copyq show'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name", value: "'Show CopyQ Window'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/binding", value: "'<Shift><Alt>x'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/command", value: "'/usr/bin/flameshot gui'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/name", value: "'Open Flameshot GUI'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/ambient-enabled", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
@@ -618,9 +624,6 @@
         - { key: "/org/gnome/shell/keybindings/toggle-overview", value: "['<Super>Tab']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
-        - { key: "/org/gnome/desktop/peripherals/keyboard/repeat-interval", value: "uint32 20", state: "present" }
-        - { key: "/org/gnome/desktop/peripherals/keyboard/delay", value: "uint32 250", state: "present" }
-        - { key: "/org/gnome/desktop/peripherals/keyboard/numlock-state", value: "true", state: "present" }
 
     - name: Sort Gnome applications screen alphabetically
       command: gsettings set org.gnome.shell app-picker-layout "[]"
