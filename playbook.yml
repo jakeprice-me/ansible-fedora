@@ -498,6 +498,7 @@
           user_pref("browser.search.suggest.enabled", false);
           user_pref("browser.search.update", false);
           user_pref("browser.startup.homepage", "{{ firefox_start_page }}");
+          user_pref("browser.tabs.inTitlebar", 0);
           user_pref("browser.tabs.loadBookmarksInBackground", true);
           user_pref("browser.tabs.loadBookmarksInTabs", true);
           user_pref("browser.uidensity", 1);
@@ -518,12 +519,12 @@
           user_pref("experiments.supported", false);
           user_pref("extensions.pocket.enabled", false);
           user_pref("layout.word_select.eat_space_to_next_word", false);
-          user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
           user_pref("mousewheel.min_line_scroll_amount", 25);
           user_pref("network.allow-experiments", false);
           user_pref("privacy.trackingprotection.enabled", true);
           user_pref("privacy.trackingprotection.pbmode.enabled", true);
           user_pref("signon.rememberSignons", false);
+          user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
           user_pref("toolkit.telemetry.archive.enabled", false);
           user_pref("toolkit.telemetry.enabled", false);
           user_pref("toolkit.telemetry.unified", false);
@@ -534,6 +535,26 @@
         owner: "{{ personal_username }}"
         group: "{{ personal_username }}"
         recurse: yes
+
+    - name: Custom Firefox userChrome for Tab Center Reborn Sidebar Tabs
+      copy:
+        dest: "{{ firefox_profile | json_query('files[*].path | [0]') | replace ('\"', '') }}/chrome/userChrome.css"
+        mode: 0644
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        content: |
+          /* This hides the tab bar which contains the new tab button, pinned tabs and
+           * the tab list. I then use Sidebery for managing tabs, and enable the "Title
+           * Bar" in the "Customise Menu". */
+          #titlebar {
+              display: none;
+          }
+
+          /* I don't want to remove the sidebar title, but I do want the font-size to be
+           * smaller. */
+          #sidebar-header {
+            font-size: 1.1em !important;
+          }
 
     - name: Create custom Gnome Shell theme
       copy:
