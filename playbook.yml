@@ -602,7 +602,7 @@
       become_user: "{{ personal_username }}"
       with_items:
         - { key: "/org/gnome/desktop/background/picture-options", value: "'stretched'", state: "present" }
-        - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///home/jprice/Wallpapers/976156.png'", state: "present" }
+        - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///home/jprice/my/files/media/pictures/wallpaper/desktop/1100163.jpg'", state: "present" }
         - { key: "/org/gnome/desktop/input-sources/xkb-options", value: "['caps:none']", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-format", value: "'24h'", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
@@ -637,9 +637,9 @@
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/binding", value: "'<Shift><Alt>x'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/command", value: "'/usr/bin/flameshot gui'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/name", value: "'Open Flameshot GUI'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/binding", value: "'<Shift><Ctrl>f'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/command", value: "'/usr/bin/bash /home/jprice/my/files/code/bash-scripts/xdotool_search_firefox_tabs.sh'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/name", value: "'Firefox - Search Tabs'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/binding", value: "'<Super>e'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/command", value: "'nautilus'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/name", value: "'Open Nautilus'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/ambient-enabled", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
