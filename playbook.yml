@@ -594,6 +594,24 @@
               -VteTerminal-inner-border: 10px;
           }
 
+    - name: Download Vim Papirus Icon
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/d277b3c94419d0786e35a2c75407b1a9630d0bd8/Papirus/64x64/apps/vim.svg
+        dest: "/home/{{ personal_username }}/.local/share/icons/vim.svg"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+
+    - name: Update Gui Vim icon to Papirus version
+      replace:
+        path: /usr/share/applications/gvim.desktop
+        backup: yes
+        regexp: "^Icon=gvim"
+        replace: "Icon=/home/{{ personal_username }}/.local/share/icons/vim.svg"
+
+    - name: Update GTK icon cache
+      become: yes
+      command: "gtk-update-icon-cache"
+
     - name: Set Gnome dconf preferences
       community.general.dconf:
         key: "{{ item.key }}"
@@ -671,8 +689,8 @@
       replace:
         path: /etc/systemd/logind.conf
         backup: yes
-        regexp: "#HandleLidSwitchDocked=ignore"
-        replace: "HandleLidSwitchDocked=ignore"
+        regexp: "{{ item.regexp }}"
+        replace: "{{ item.replace }}"
       with_items:
         # Suspend when on battery:
         - { regexp: "#HandleLidSwitch=suspend", replace: "HandleLidSwitch=suspend" }
