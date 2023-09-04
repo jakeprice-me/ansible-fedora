@@ -494,6 +494,7 @@
           user_pref("browser.newtabpage.enabled", false);
           user_pref("browser.newtabpage.enhanced", false);
           user_pref("browser.pocket.enabled", false);
+          user_pref("browser.quitShortcut.disabled", true);
           user_pref("browser.search.context.loadInBackground", true);
           user_pref("browser.search.suggest.enabled", false);
           user_pref("browser.search.update", false);
