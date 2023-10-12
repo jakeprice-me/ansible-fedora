@@ -128,7 +128,6 @@
           - gnome-extensions-app
           - gnome-shell-extension-user-theme
           - gnome-tweaks
-          - golang-github-prometheus-node-exporter
           - graphviz
           - hplip
           - hplip-common
@@ -709,5 +708,4 @@
       with_items:
         - { name: crond }
         - { name: docker }
-        - { name: node_exporter }
 
