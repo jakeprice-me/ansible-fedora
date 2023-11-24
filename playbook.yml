@@ -474,6 +474,7 @@
         content: |
           user_pref("browser.aboutConfig.showWarning", false);
           user_pref("browser.aboutHomeSnippets.updateUrl", "");
+          user_pref("browser.chrome.toolbar_tips", true);
           user_pref("browser.compactmode.show", true);
           user_pref("browser.discovery.enabled", false);
           user_pref("browser.download.useDownloadDir", false);
