@@ -134,7 +134,6 @@
           - hplip-libs
           - ipcalc
           - jq
-          - keepassxc
           - libsane-hpaio
           - libxdo
           - lm_sensors
@@ -302,9 +301,9 @@
       with_items:
         - { src: "https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip", dest: /tmp }
         - { src: "https://github.com/charmbracelet/glow/releases/download/v1.5.1/glow_Linux_x86_64.tar.gz", dest: /tmp }
-        - { src: "https://github.com/ellie/atuin/releases/download/v16.0.0/atuin-v16.0.0-x86_64-unknown-linux-gnu.tar.gz", dest: /tmp }
+        - { src: "https://github.com/ellie/atuin/releases/download/v17.1.0/atuin-v17.1.0-x86_64-unknown-linux-gnu.tar.gz", dest: /tmp }
         - { src: "https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip", dest: /tmp }
-        - { src: "https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip", dest: /tmp }
+        - { src: "https://github.com/rsms/inter/releases/download/v4.0/Inter-4.0.zip", dest: /tmp }
 
     - name: Make personal opt directory
       file:
@@ -315,7 +314,7 @@
 
     - name: Download Espanso AppImage
       get_url:
-        url: https://github.com/espanso/espanso/releases/download/v2.1.8/Espanso-X11.AppImage 
+        url: https://github.com/espanso/espanso/releases/download/v2.2.1/Espanso-X11.AppImage 
         dest: "/home/{{ personal_username }}/opt/Espanso-X11.AppImage"
         owner: "{{ personal_username }}"
         group: "{{ personal_username }}"
@@ -327,7 +326,7 @@
         dest: "{{ item.dest }}"
       with_items:
         # Atuin:
-        - { src: /tmp/atuin-v16.0.0-x86_64-unknown-linux-gnu/atuin, dest: /usr/local/bin/atuin }
+        - { src: /tmp/atuin-v17.1.0-x86_64-unknown-linux-gnu/atuin, dest: /usr/local/bin/atuin }
         # Glow:
         - { src: /tmp/glow, dest: /usr/local/bin/glow }
         # Ubuntu Mono:
