@@ -33,8 +33,8 @@
         state: present
         disable_gpg_check: yes
       with_items:
-        - { name: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-36.noarch.rpm" }
-        - { name: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-36.noarch.rpm" }
+        - { name: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm" }
+        - { name: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm" }
 
     - name: Import 1Password Repo Key
       rpm_key:
@@ -178,14 +178,6 @@
         state: present
         disable_gpg_check: yes
 
-    - name: Download Broot
-      ansible.builtin.get_url:
-        url: https://dystroy.org/broot/download/x86_64-linux/broot
-        dest: /usr/local/bin/broot
-        owner: "{{ personal_username }}"
-        group: "{{ personal_username }}"
-        mode: 0777
-    
     - name: Add the flathub flatpak repository remote to the user installation
       flatpak_remote:
         name: flathub
@@ -620,13 +612,13 @@
       become_user: "{{ personal_username }}"
       with_items:
         - { key: "/org/gnome/desktop/background/picture-options", value: "'stretched'", state: "present" }
-        - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///home/jprice/my/files/media/pictures/wallpaper/desktop/1100163.jpg'", state: "present" }
+        - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///home/jprice/my/files/media/pictures/wallpaper/desktop/893848.png'", state: "present" }
         - { key: "/org/gnome/desktop/input-sources/xkb-options", value: "['caps:none']", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-format", value: "'24h'", state: "present" }
         - { key: "/org/gnome/desktop/interface/clock-show-weekday", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/interface/font-name", value: "'Inter Regular 10'", state: "present" }
-        - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Ubuntu Mono Regular 13'", state: "present" }
         - { key: "/org/gnome/desktop/interface/gtk-theme", value: "'Adwaita-dark'", state: "present" }
+        - { key: "/org/gnome/desktop/interface/monospace-font-name", value: "'Ubuntu Mono Regular 13'", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/keyboard/delay", value: "uint32 250", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/keyboard/numlock-state", value: "true", state: "present" }
         - { key: "/org/gnome/desktop/peripherals/keyboard/repeat-interval", value: "uint32 20", state: "present" }
@@ -659,6 +651,7 @@
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/binding", value: "'<Super>e'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/command", value: "'nautilus'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/name", value: "'Open Nautilus'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/play", value: "['<Shift><Super>p']", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/ambient-enabled", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
@@ -667,9 +660,24 @@
         - { key: "/org/gnome/shell/keybindings/toggle-overview", value: "['<Super>Tab']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
+        - { key: "/org/gnome/nautilus/list-view/default-visible-columns", value: "['name', 'size', 'type', 'date_modified']", state: "present" }
+        - { key: "/org/gnome/nautilus/list-view use-tree-view", value: "true", state: "present" }
 
     - name: Sort Gnome applications screen alphabetically
       command: gsettings set org.gnome.shell app-picker-layout "[]"
+
+    - name: Create Nautilus bookmarks
+      copy:
+        dest: /home/{{ personal_username }}/.config/gtk-3.0/bookmarks
+        mode: 0644
+        content: |
+          file:///home/jprice/my/files/inbox
+          file:///home/jprice/my/files/documents/SIFT
+          file:///home/jprice/my/files/code
+          file:///home/jprice/my
+          file:///home/jprice/Screenshots
+          file:///home/jprice/temp
+      become_user: "{{ personal_username }}"
 
     - name: Disable caps lock key
       command: setxkbmap -option ctrl:nocaps
