@@ -102,7 +102,6 @@
           - 1password
           - ImageMagick
           - ShellCheck
-          - alacritty
           - android-tools
           - bat
           - chromium
@@ -134,6 +133,7 @@
           - hplip-libs
           - ipcalc
           - jq
+          - kitty
           - libsane-hpaio
           - libxdo
           - lm_sensors
@@ -354,11 +354,11 @@
         group: "{{ personal_username }}"
         state: link
       with_items:
-        - { src: "~/my/files/code/dotfiles/alacritty", dest: "/home/{{ personal_username }}/.config/alacritty" }
         - { src: "~/my/files/code/dotfiles/atuin", dest: "/home/{{ personal_username }}/.config/atuin" }
         - { src: "~/my/files/code/dotfiles/copyq/copyq.conf", dest: "/home/{{ personal_username }}/.config/copyq/copyq.conf" }
         - { src: "~/my/files/code/dotfiles/espanso", dest: "/home/{{ personal_username }}/.config/espanso" }
         - { src: "~/my/files/code/dotfiles/fish", dest: "/home/{{ personal_username }}/.config/fish" }
+        - { src: "~/my/files/code/dotfiles/kitty", dest: "/home/{{ personal_username }}/.config/kitty" }
         - { src: "~/my/files/code/dotfiles/tmux/tmux.conf", dest: "/home/{{ personal_username }}/.tmux.conf" }
         - { src: "~/my/files/code/dotfiles/unison/{{ hostname }}.prf", dest: "/home/{{ personal_username }}/.unison/{{ hostname }}.prf" }
         - { src: "~/my/files/code/dotfiles/vim/coc-settings.json", dest: "/home/{{ personal_username }}/.vim/coc-settings.json" }
