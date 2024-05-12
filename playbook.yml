@@ -103,6 +103,7 @@
           - ImageMagick
           - ShellCheck
           - android-tools
+          - avidemux
           - bat
           - chromium
           - cifs-utils
