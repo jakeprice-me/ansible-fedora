@@ -294,9 +294,10 @@
       with_items:
         - { src: "https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip", dest: /tmp }
         - { src: "https://github.com/charmbracelet/glow/releases/download/v1.5.1/glow_Linux_x86_64.tar.gz", dest: /tmp }
-        - { src: "https://github.com/ellie/atuin/releases/download/v17.1.0/atuin-v17.1.0-x86_64-unknown-linux-gnu.tar.gz", dest: /tmp }
+        - { src: "https://github.com/atuinsh/atuin/releases/download/v18.2.0/atuin-v18.2.0-x86_64-unknown-linux-gnu.tar.gz", dest: /tmp }
         - { src: "https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip", dest: /tmp }
         - { src: "https://github.com/rsms/inter/releases/download/v4.0/Inter-4.0.zip", dest: /tmp }
+        - { src: "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-GB", dest: "/home/{{ personal_username }}/opt" }
 
     - name: Make personal opt directory
       file:
@@ -304,6 +305,17 @@
         owner: "{{ personal_username }}"
         group: "{{ personal_username }}"
         recurse: yes
+
+    - name: Symlink programs
+      file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        state: link
+      with_items:
+        - { src: "~/opt/firefox/firefox", dest: "/home/{{ personal_username }}/.local/bin/firefox-dev" }
+      become_user: "{{ personal_username }}"
 
     - name: Download Espanso AppImage
       get_url:
@@ -319,7 +331,7 @@
         dest: "{{ item.dest }}"
       with_items:
         # Atuin:
-        - { src: /tmp/atuin-v17.1.0-x86_64-unknown-linux-gnu/atuin, dest: /usr/local/bin/atuin }
+        - { src: /tmp/atuin-v18.2.0-x86_64-unknown-linux-gnu/atuin, dest: /usr/local/bin/atuin }
         # Glow:
         - { src: /tmp/glow, dest: /usr/local/bin/glow }
         # Ubuntu Mono:
@@ -394,6 +406,32 @@
           MimeType=text/plain;x-scheme-handler/guivim;
           StartupNotify=true
           StartupWMClass=GUIVIM
+
+    - name: Firefox Developer Edition Desktop File
+      copy:
+        dest: /usr/share/applications/firefox-dev.desktop
+        content: |
+          [Desktop Entry]
+          Name=Firefox Developer Edition
+          GenericName=Web Browser
+          Exec=/home/{{ personal_username }}/.local/bin/firefox-dev %u
+          Icon=/home/{{ personal_username }}/opt/firefox/browser/chrome/icons/default/default128.png
+          Terminal=false
+          Type=Application
+          MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;x-scheme-handler/http;x-scheme-handler/https;
+          StartupNotify=true
+          Categories=Network;WebBrowser;
+          Keywords=web;browser;internet;
+          Actions=new-window;new-private-window;
+          StartupWMClass=Firefox Developer Edition
+
+          [Desktop Action new-window]
+          Name=Open a New Window
+          Exec=/home/{{ personal_username }}/.local/bin/firefox-dev %u
+
+          [Desktop Action new-private-window]
+          Name=Open a New Private Window
+          Exec=/home/{{ personal_username }}/.local/bin/firefox-dev --private-window %u
 
     - name: URI Handler Script
       copy:
@@ -657,7 +695,7 @@
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type", value: "'nothing'", state: "present" }
-        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'Alacritty.desktop', 'gvim.desktop', 'org.gnome.Nautilus.desktop', 'org.telegram.desktop.desktop']", state: "present" }
+        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'kitty.desktop', 'md.obsidian.Obsidian.desktop', 'gvim.desktop', 'org.gnome.Nautilus.desktop', 'org.telegram.desktop.desktop']", state: "present" }
         - { key: "/org/gnome/shell/keybindings/toggle-overview", value: "['<Super>Tab']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
