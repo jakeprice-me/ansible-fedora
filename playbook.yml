@@ -652,6 +652,9 @@
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/binding", value: "'<Super>e'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/command", value: "'nautilus'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/name", value: "'Open Nautilus'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/binding", value: "'<Shift><Alt>b'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/command", value: "'/usr/bin/bash /home/jprice/my/files/code/bash-scripts/toggle_bluetooth.sh'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/name", value: "'Toggle Bluetooth'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/play", value: "['<Shift><Super>p']", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/ambient-enabled", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
