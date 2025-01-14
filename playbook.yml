@@ -539,7 +539,9 @@
           /* This hides the tab bar which contains the new tab button, pinned tabs and
            * the tab list. I then use Sidebery for managing tabs, and enable the "Title
            * Bar" in the "Customise Menu". */
-          #titlebar {
+          #titlebar,
+          .browser-titlebar,
+          #main-menubar {
               display: none;
           }
 
