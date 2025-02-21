@@ -20,13 +20,6 @@
       hostname:
         name: "{{ hostname }}"
 
-    - name: Specify if device is a server
-      blockinfile:
-        path: $HOME/.profile
-        block: |
-          export IS_A_SERVER=0
-      become_user: "{{ personal_username }}"
-    
     - name: Install RPM Fusion
       dnf:
         name: "{{ item.name }}"
