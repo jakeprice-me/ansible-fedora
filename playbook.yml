@@ -32,20 +32,12 @@
     - name: Import 1Password Repo Key
       rpm_key:
         state: present
-        key: https://downloads.1password.com/linux/keys/1password.asc
-
-    - name: Configure dnf
-      blockinfile:
-        path: /etc/dnf/dnf.conf
-        block: |
-          fastestmirror=true
-          max_parallel_downloads=20
+        key: "https://downloads.1password.com/linux/keys/1password.asc"
 
     - name: Add repositories
       command: "{{ item.command }}"
       with_items:
-        - { command: "dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo" }
-        - { command: "dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo" }
+        - { command: "dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo" }
 
     - name: Add 1Password repository
       copy:
@@ -58,29 +50,7 @@
           enabled=1
           gpgcheck=1
           repo_gpgcheck=1
-          gpgkey="https://downloads.1password.com/linux/keys/1password.asc"
-
-    - name: Add vscodium repository
-      copy:
-        dest: /etc/yum.repos.d/vscodium.repo
-        mode: 0644
-        content: |
-          [gitlab.com_paulcarroty_vscodium_repo]
-          name=download.vscodium.com
-          baseurl=https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/rpms/
-          enabled=1
-          gpgcheck=1
-          repo_gpgcheck=1
-          gpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
-          metadata_expire=1h
-
-    - name: Replace $releasever version in Docker repo
-      # Reason for this https://stackoverflow.com/a/69531184
-      replace:
-        path: /etc/yum.repos.d/docker-ce.repo
-        backup: yes
-        regexp: "\\$releasever"
-        replace: "34"
+          gpgkey=https://downloads.1password.com/linux/keys/1password.asc
 
     - name: Update repositories and packages
       dnf:
@@ -97,10 +67,8 @@
           - ShellCheck
           - android-tools
           - avidemux
-          - bat
           - chromium
           - cifs-utils
-          - codium
           - containerd.io
           - copyq
           - cronie
@@ -109,8 +77,8 @@
           - dnsutils
           - docker-ce
           - docker-ce-cli
+          - docker-buildx-plugin
           - docker-compose-plugin
-          - dos2unix
           - fd-find
           - ffmpeg
           - fish
@@ -121,19 +89,14 @@
           - gnome-extensions-app
           - gnome-shell-extension-user-theme
           - gnome-tweaks
-          - graphviz
-          - hplip
-          - hplip-common
-          - hplip-libs
           - ipcalc
           - jq
           - kitty
-          - libsane-hpaio
           - libxdo
           - lm_sensors
-          - mailx
           - net-tools
           - nmap
+          - nodejs
           - openssl
           - p7zip
           - p7zip-plugins
@@ -145,32 +108,32 @@
           - qrencode
           - remmina
           - ripgrep
-          - ruby
           - sqlitebrowser
-          - terraform
-          - tftp
           - tmux
           - tree
           - vim
           - vim-X11
           - vim-common
           - vlc
+          - vorta
           - wireguard
           - wireguard-tools
           - wget
           - xclip
           - xrandr
 
+    - name: Give me back Xorg!
+      dnf:
+        state: latest
+        name:
+          - gnome-session-xsession
+          - xorg-x11-drivers
+          - xorg-x11-xinit
+
     - name: Install Package Groups
       dnf:
         name: "@Multimedia"
         state: present
-
-    - name: Install GitHub CLI rpm
-      dnf:
-        name: https://github.com/cli/cli/releases/download/v2.12.1/gh_2.12.1_linux_amd64.rpm
-        state: present
-        disable_gpg_check: yes
 
     - name: Add the flathub flatpak repository remote to the user installation
       flatpak_remote:
@@ -183,8 +146,9 @@
         name: "{{ item.name }}"
         state: present
       with_items:
-        - { name:  org.telegram.desktop }
-        - { name:  com.jgraph.drawio.desktop }
+        - { name: org.telegram.desktop }
+        - { name: md.obsidian.Obsidian }
+        - { name: com.jgraph.drawio.desktop }
 
     - name: Install Python Packages
       pip:
@@ -195,21 +159,11 @@
           - psutil
           - pylint
           - requests
+          - spotdl
+          - yt-dlp
         extra_args: --user
       become_user: "{{ personal_username }}"
-    
-    - name: Make tmux plugin directory
-      file:
-        path: "/home/{{ personal_username }}/.tmux/plugins"
-        owner: "{{ personal_username }}"
-        group: "{{ personal_username }}"
-        recurse: yes
 
-    - name: Clone Tmux Plugin Manager
-      ansible.builtin.git:
-        repo: https://github.com/tmux-plugins/tpm.git
-        dest: ~/.tmux/plugins/tpm
-    
     - name: Make vim-plug directory
       file:
         path: "/home/{{ personal_username }}/.vim/autoload"
@@ -254,8 +208,6 @@
         recurse: yes
       with_items:
         - { path: "/home/{{ personal_username }}/.themes/custom/gnome-shell" }
-        - { path: "/home/{{ personal_username }}/.config/espanso" }
-        - { path: "/home/{{ personal_username }}/.unison" }
 
     - name: Add regular Unison file syncs
       ansible.builtin.cron:
@@ -286,9 +238,7 @@
         remote_src: yes
       with_items:
         - { src: "https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip", dest: /tmp }
-        - { src: "https://github.com/charmbracelet/glow/releases/download/v1.5.1/glow_Linux_x86_64.tar.gz", dest: /tmp }
-        - { src: "https://github.com/atuinsh/atuin/releases/download/v18.2.0/atuin-v18.2.0-x86_64-unknown-linux-gnu.tar.gz", dest: /tmp }
-        - { src: "https://github.com/googlefonts/Inconsolata/releases/download/v3.000/fonts_ttf.zip", dest: /tmp }
+        - { src: "https://github.com/atuinsh/atuin/releases/download/v18.4.0/atuin-x86_64-unknown-linux-gnu.tar.gz", dest: /tmp }
         - { src: "https://github.com/rsms/inter/releases/download/v4.0/Inter-4.0.zip", dest: /tmp }
 
     - name: Make personal opt directory
@@ -312,9 +262,7 @@
         dest: "{{ item.dest }}"
       with_items:
         # Atuin:
-        - { src: /tmp/atuin-v18.2.0-x86_64-unknown-linux-gnu/atuin, dest: /usr/local/bin/atuin }
-        # Glow:
-        - { src: /tmp/glow, dest: /usr/local/bin/glow }
+        - { src: /tmp/atuin-x86_64-unknown-linux-gnu/atuin, dest: /usr/local/bin/atuin }
         # Ubuntu Mono:
         - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-BI.ttf, dest: /usr/local/share/fonts/ }
         - { src: /tmp/ubuntu-font-family-0.83/UbuntuMono-B.ttf, dest: /usr/local/share/fonts/ }
@@ -355,6 +303,7 @@
         - { src: "~/my/files/code/dotfiles/kitty", dest: "/home/{{ personal_username }}/.config/kitty" }
         - { src: "~/my/files/code/dotfiles/tmux/tmux.conf", dest: "/home/{{ personal_username }}/.tmux.conf" }
         - { src: "~/my/files/code/dotfiles/unison/{{ hostname }}.prf", dest: "/home/{{ personal_username }}/.unison/{{ hostname }}.prf" }
+        - { src: "~/my/files/code/dotfiles/nvim", dest: "/home/{{ personal_username }}/.config/nvim" }
         - { src: "~/my/files/code/dotfiles/vim/coc-settings.json", dest: "/home/{{ personal_username }}/.vim/coc-settings.json" }
         - { src: "~/my/files/code/dotfiles/vim/colors", dest: "/home/{{ personal_username }}/.vim/colors" }
         - { src: "~/my/files/code/dotfiles/vim/vimrc", dest: "/home/{{ personal_username }}/.vimrc" }
@@ -371,50 +320,23 @@
         - { src: "$HOME/my/files/documents/vault/ssh", dest: "/home/{{ personal_username }}/.ssh" }
       become_user: "{{ personal_username }}"
 
-    - name: Setup GuiVim URI Handler
-      copy:
-        dest: /usr/share/applications/guivim.desktop
-        content: |
-          [Desktop Entry]
-          Encoding=UTF-8
-          Name=Vim (GUI)
-          Comment=Edit text files in a console using Vim
-          Exec=/usr/local/bin/guivim %U
-          Terminal=false
-          Type=Application
-          Icon=gvim
-          Categories=Application;Utility;TextEditor;
-          MimeType=text/plain;x-scheme-handler/guivim;
-          StartupNotify=true
-          StartupWMClass=GUIVIM
+    - name: Create /srv/data-01
+      file:
+        path: /srv/data-01
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        state: directory
 
-    - name: URI Handler Script
-      copy:
-        dest: /usr/local/bin/guivim
-        content: |
-          #! /usr/bin/env ruby
-
-          require 'uri'
-          require 'cgi'
-
-          full_path = ARGV[0]
-
-          if full_path
-            uri = URI::parse(full_path)
-
-            vim_params = %Q["#{uri.path}"]
-
-            if uri.query
-              params = CGI::parse(uri.query)
-              line = params["line"][0]
-            end
-
-            vim_params << " +#{line}" if line
-          end
-
-          # --remote-silent opens a session, and then opens futher files
-          # in that session:
-          `gvim --remote-silent #{vim_params}`
+    - name: Symlink my to /srv/data-01
+      file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ personal_username }}"
+        group: "{{ personal_username }}"
+        state: link
+      with_items:
+        - { src: "$HOME/my", dest: "/srv/data-01/my" }
+      become_user: "{{ personal_username }}"
 
     - name: Make binaries executable
       ansible.builtin.file:
@@ -422,16 +344,15 @@
         mode: "{{ item.mode }}"
       with_items:
         - { path: "/home/{{ personal_username }}/opt/Espanso-X11.AppImage", mode: "0755" }
-        - { path: /usr/local/bin/glow, mode: "0755" }
-        - { path: /usr/local/bin/guivim, mode: "0755" }
+        - { path: /usr/local/bin/atuin, mode: "0755" }
 
     - name: Change default shell to fish
       user:
         name: "{{ personal_username }}"
         shell: /usr/bin/fish
-      become_user: "{{ personal_username }}"
+      become: true
 
-    - name: Get Firefox default release profile name
+    - name: Check if Espanso is installed on the command line
       command: which espanso
       failed_when: false
       changed_when: false
@@ -442,14 +363,11 @@
       command: "/home/{{ personal_username }}/opt/Espanso-X11.AppImage env-path register"
       when: espanso_exists.rc == 1
 
-    - name: Update desktop database to pick up GuiVim URI
-      command: update-desktop-database
-
     - name: Get Firefox default release profile name
       find:
         paths: "/home/{{ personal_username }}/.mozilla/firefox/"
         file_type: directory
-        patterns: '*.default-release'
+        patterns: '*.jprice'
       register: firefox_profile
 
     - name: Custom Firefox settings
@@ -557,49 +475,7 @@
               font-family: Inter;
               font-size: 13px;
           }
-
-    - name: Nautilus Bookmarks
-      copy:
-        dest: "/home/{{ personal_username }}/.config/gtk-3.0/bookmarks"
-        mode: 0644
-        owner: "{{ personal_username }}"
-        group: "{{ personal_username }}"
-        content: |
-          file:///home/{{ personal_username }}/my
-          file:///home/{{ personal_username }}/Downloads
     
-    - name: Gnome terminal padding
-      copy:
-        dest: "/home/{{ personal_username }}/.config/gtk-3.0/gtk.css"
-        mode: 0644
-        owner: "{{ personal_username }}"
-        group: "{{ personal_username }}"
-        content: |
-          VteTerminal,
-          TerminalScreen,
-          vte-terminal {
-              padding: 10px;
-              -VteTerminal-inner-border: 10px;
-          }
-
-    - name: Download Vim Papirus Icon
-      ansible.builtin.get_url:
-        url: https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/d277b3c94419d0786e35a2c75407b1a9630d0bd8/Papirus/64x64/apps/vim.svg
-        dest: "/home/{{ personal_username }}/.local/share/icons/vim.svg"
-        owner: "{{ personal_username }}"
-        group: "{{ personal_username }}"
-
-    - name: Update Gui Vim icon to Papirus version
-      replace:
-        path: /usr/share/applications/gvim.desktop
-        backup: yes
-        regexp: "^Icon=gvim"
-        replace: "Icon=/home/{{ personal_username }}/.local/share/icons/vim.svg"
-
-    - name: Update GTK icon cache
-      become: yes
-      command: "gtk-update-icon-cache"
-
     - name: Set Gnome dconf preferences
       community.general.dconf:
         key: "{{ item.key }}"
@@ -637,7 +513,7 @@
         - { key: "/org/gnome/nautilus/preferences/show-delete-permanently", value: "true", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/show-directory-item-counts", value: "'always'", state: "present" }
         - { key: "/org/gnome/nautilus/preferences/show-image-thumbnails", value: "'always'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings", value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/']", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings", value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/']", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding", value: "'<Shift><Alt>c'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command", value: "'copyq show'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name", value: "'Show CopyQ Window'", state: "present" }
@@ -647,15 +523,15 @@
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/binding", value: "'<Super>e'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/command", value: "'nautilus'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/name", value: "'Open Nautilus'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/binding", value: "'<Shift><Alt>b'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/command", value: "'/usr/bin/bash /home/jprice/my/files/code/bash-scripts/toggle_bluetooth.sh'", state: "present" }
-        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/name", value: "'Toggle Bluetooth'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/binding", value: "'<Shift><Alt>b'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/command", value: "'/usr/bin/bash /home/jprice/my/files/code/bash-scripts/toggle_bluetooth.sh'", state: "present" }
+        - { key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/name", value: "'Toggle Bluetooth'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/media-keys/play", value: "['<Shift><Super>p']", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/ambient-enabled", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/idle-dim", value: "false", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type", value: "'nothing'", state: "present" }
         - { key: "/org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type", value: "'nothing'", state: "present" }
-        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'kitty.desktop', 'md.obsidian.Obsidian.desktop', 'gvim.desktop', 'org.gnome.Nautilus.desktop', 'org.telegram.desktop.desktop']", state: "present" }
+        - { key: "/org/gnome/shell/favorite-apps", value: "['firefox.desktop', 'kitty.desktop', 'md.obsidian.Obsidian.desktop', 'org.gnome.Nautilus.desktop', 'org.telegram.desktop.desktop']", state: "present" }
         - { key: "/org/gnome/shell/keybindings/toggle-overview", value: "['<Super>Tab']", state: "present" }
         - { key: "/org/gtk/gtk4/Settings/FileChooser/sort-directories-first", value: "true", state: "present" }
         - { key: "/org/gtk/settings/file-chooser/sort-directories-first", value: "true", state: "present" }
@@ -670,12 +546,12 @@
         dest: /home/{{ personal_username }}/.config/gtk-3.0/bookmarks
         mode: 0644
         content: |
+          file:///home/jprice/Downloads
           file:///home/jprice/my/files/inbox
           file:///home/jprice/my/files/documents/SIFT
           file:///home/jprice/my/files/code
           file:///home/jprice/my
           file:///home/jprice/Screenshots
-          file:///home/jprice/temp
       become_user: "{{ personal_username }}"
 
     - name: Disable caps lock key
@@ -693,10 +569,14 @@
         - { name: init.defaultBranch, value: master }
       become_user: "{{ personal_username }}"
 
+    - name: Copy logind.conf
+      ansible.builtin.copy:
+        src: /usr/lib/systemd/logind.conf
+        dest: /etc/systemd/logind.conf
+
     - name: Laptop lid closure settings
       replace:
         path: /etc/systemd/logind.conf
-        backup: yes
         regexp: "{{ item.regexp }}"
         replace: "{{ item.replace }}"
       with_items:
@@ -706,6 +586,13 @@
         - { regexp: "#HandleLidSwitchDocked=ignore", replace: "HandleLidSwitchDocked=ignore" }
         # Suspend when on power:
         - { regexp: "#HandleLidSwitchExternalPower=suspend", replace: "HandleLidSwitchExternalPower=suspend" }
+
+    - name: Ensure Gnome titlebar is dark
+      # https://discussion.fedoraproject.org/t/setting-dark-theme-for-certain-applications/135134/9
+      copy:
+        dest: /etc/environment
+        content: |
+          MUTTER_FRAMES_PLATFORM_LIBRARY=none
 
     - name: Enable & start services
       ansible.builtin.systemd:
