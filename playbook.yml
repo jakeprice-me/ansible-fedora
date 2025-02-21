@@ -121,6 +121,7 @@
           - wget
           - xclip
           - xrandr
+          - yarnpkg
 
     - name: Give me back Xorg!
       dnf:
