@@ -67,6 +67,7 @@
           - ShellCheck
           - android-tools
           - avidemux
+          - calibre
           - chromium
           - cifs-utils
           - containerd.io
