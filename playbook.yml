@@ -89,6 +89,7 @@
           - git
           - gnome-extensions-app
           - gnome-shell-extension-user-theme
+          - gnome-themes-extra
           - gnome-tweaks
           - ipcalc
           - jq
@@ -96,6 +97,7 @@
           - libxdo
           - lm_sensors
           - net-tools
+          - neovim
           - nmap
           - nodejs
           - openssl
@@ -210,6 +212,7 @@
         recurse: yes
       with_items:
         - { path: "/home/{{ personal_username }}/.themes/custom/gnome-shell" }
+        - { path: "/home/{{ personal_username }}/Screenshots" }
 
     - name: Add regular Unison file syncs
       ansible.builtin.cron:
@@ -309,17 +312,6 @@
         - { src: "~/my/files/code/dotfiles/vim/coc-settings.json", dest: "/home/{{ personal_username }}/.vim/coc-settings.json" }
         - { src: "~/my/files/code/dotfiles/vim/colors", dest: "/home/{{ personal_username }}/.vim/colors" }
         - { src: "~/my/files/code/dotfiles/vim/vimrc", dest: "/home/{{ personal_username }}/.vimrc" }
-      become_user: "{{ personal_username }}"
-    
-    - name: Symlink SSH directory
-      file:
-        src: "{{ item.src }}"
-        dest: "{{ item.dest }}"
-        owner: "{{ personal_username }}"
-        group: "{{ personal_username }}"
-        state: link
-      with_items:
-        - { src: "$HOME/my/files/documents/vault/ssh", dest: "/home/{{ personal_username }}/.ssh" }
       become_user: "{{ personal_username }}"
 
     - name: Create /srv/data-01
