@@ -91,6 +91,8 @@
           - gnome-shell-extension-user-theme
           - gnome-themes-extra
           - gnome-tweaks
+          - hledger
+          - hledger-web
           - ipcalc
           - jq
           - kitty
@@ -544,6 +546,7 @@
           file:///home/jprice/Downloads
           file:///home/jprice/my/files/inbox
           file:///home/jprice/my/files/documents/SIFT
+          file:///home/jprice/my/files/documents/finances
           file:///home/jprice/my/files/code
           file:///home/jprice/my
           file:///home/jprice/Screenshots
