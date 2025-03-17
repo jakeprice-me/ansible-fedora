@@ -124,6 +124,7 @@
           - wireguard
           - wireguard-tools
           - wget
+          - wol
           - xclip
           - xrandr
           - yarnpkg
