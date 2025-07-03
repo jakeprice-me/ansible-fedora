@@ -237,6 +237,26 @@
           cd $HOME/my/files/code/universal-search/pipeline && /usr/bin/python generate_ts_index_firefox_history.py --config_file config.dev.yml
       become_user: "{{ personal_username }}"
 
+    - name: Backup Sidebery tabs
+      ansible.builtin.cron:
+        name: "Backup Sidebery tabs"
+        minute: "30"
+        hour: "*"
+        weekday: "*"
+        job: |
+          /usr/bin/rsync --archive --delete --verbose /home/jprice/Downloads/sidebery-tab-snapshots/ /home/jprice/my/backup/sidebery/sidebery-tab-snapshots/
+      become_user: "{{ personal_username }}"
+
+    - name: Backup Anki2 folder hourly
+      ansible.builtin.cron:
+        name: "Backup Anki2 folder"
+        minute: "0"
+        hour: "*"
+        weekday: "*"
+        job: |
+          /usr/bin/rsync --archive --delete --verbose /home/jprice/.local/share/Anki2/ /home/jprice/backups/Anki2/
+      become_user: "{{ personal_username }}"
+
     - name: Download fonts and additional packages
       unarchive:
         src: "{{ item.src }}"
