@@ -254,7 +254,7 @@
         hour: "*"
         weekday: "*"
         job: |
-          /usr/bin/rsync --archive --delete --verbose /home/jprice/.local/share/Anki2/ /home/jprice/backups/Anki2/
+          /usr/bin/rsync --archive --delete --verbose /home/jprice/.local/share/Anki2/ /home/jprice/my/backup/Anki2/
       become_user: "{{ personal_username }}"
 
     - name: Download fonts and additional packages
